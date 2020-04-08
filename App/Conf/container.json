@@ -53,6 +53,42 @@
             "1": "domain-object-factory",
             "2": "dto-factory",
             "3": "aggregate-factory",
+            "accomplishment-repository": [
+                "dao",
+                "entity-factory"
+            ],
+            "certification-repository": [
+                "dao",
+                "entity-factory"
+            ],
+            "cover-letter-repository": [
+                "dao",
+                "entity-factory"
+            ],
+            "education-repository": [
+                "dao",
+                "entity-factory"
+            ],
+            "employer-repository": [
+                "dao",
+                "entity-factory"
+            ],
+            "experience-repository": [
+                "dao",
+                "entity-factory"
+            ],
+            "reference-repository": [
+                "dao",
+                "entity-factory"
+            ],
+            "resume-repository": [
+                "dao",
+                "entity-factory"
+            ],
+            "skill-repository": [
+                "dao",
+                "entity-factory"
+            ],
             "account-repository": [
                 "dao",
                 "entity-factory"

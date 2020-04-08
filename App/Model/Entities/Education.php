@@ -11,6 +11,6 @@ class Education implements EntityInterface
 	public $institution;
 	public $year_graduated;
 	public $month_graduated;
-	public $achievment;
+	public $award;
 	public $currently_attending;
 }
