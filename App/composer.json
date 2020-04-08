@@ -1,0 +1,24 @@
+{
+    "require": {
+        "monolog\/monolog": "^1.24",
+        "sendgrid\/sendgrid": "~6.0",
+        "twilio\/sdk": "^5.16",
+        "braintree\/braintree_php": "3.34.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Core\\": "Core\/",
+            "Conf\\": "Conf\/",
+            "Contracts\\": "Contracts\/",
+            "Helpers\\": "Helpers\/",
+            "Controllers\\": "Controllers\/",
+            "Views\\": "Views\/",
+            "Model\\": "Model\/",
+            "Models\\": "Model\/Models\/",
+            "Entities\\": "Model\/Entities\/",
+            "Mappers\\": "Model\/Mappers\/",
+            "Services\\": "Model\/Services\/"
+        },
+        "files": []
+    }
+}

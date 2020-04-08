@@ -1,0 +1,174 @@
+{
+    "services": {
+        "\\Conf\\": [
+            "config"
+        ],
+        "\\Core\\Http\\": {
+            "0": "request"
+        },
+        "\\Core\\": {
+            "0": "model-factory",
+            "1": "view-factory",
+            "dispatcher": [
+                "container"
+            ],
+            "model-dispatcher": [
+                "model-factory"
+            ],
+            "monolog-logger": [
+                "config"
+            ],
+            "my-pdo": [
+                "config"
+            ],
+            "router": [
+                "config"
+            ],
+            "template-inheritence-resolver": [
+                "config"
+            ],
+            "view-dispatcher": [
+                "view-factory"
+            ]
+        },
+        "\\Helpers\\": {
+            "0": "access-control",
+            "1": "csv-generator",
+            "email-builder": [
+                "config"
+            ],
+            "3": "html-interview-results-builder",
+            "4": "request-validator",
+            "5": "time-converter",
+            "6": "time-manager",
+            "7": "time-zone-helper",
+            "8": "image-manager",
+            "9": "video-manager",
+            "10": "facebook-pixel-builder",
+            "11": "array-helper",
+            "12": "quick-time"
+        },
+        "\\Model\\Services\\": {
+            "0": "entity-factory",
+            "1": "domain-object-factory",
+            "2": "dto-factory",
+            "3": "aggregate-factory",
+            "account-repository": [
+                "dao",
+                "entity-factory"
+            ],
+            "address-repository": [
+                "dao",
+                "entity-factory"
+            ],
+            "country-repository": [
+                "dao",
+                "entity-factory"
+            ],
+            "file-repository": [
+                "dao",
+                "entity-factory"
+            ],
+            "image-repository": [
+                "dao",
+                "entity-factory"
+            ],
+            "phone-repository": [
+                "dao",
+                "entity-factory"
+            ],
+            "repository-factory": [
+                "dao",
+                "entity-factory"
+            ],
+            "user-authenticator": [
+                "user-repository",
+                "request"
+            ],
+            "user-aggregate-repository": [
+                "account-repository",
+                "phone-repository",
+                "aggregate-factory"
+            ],
+            "user-repository": [
+                "dao",
+                "entity-factory"
+            ],
+            "video-repository": [
+                "dao",
+                "entity-factory"
+            ]
+        }
+    },
+    "packages": {
+        "html2pdf": {
+            "\\Model\\Service\\Html2PdfAPI": {
+                "initializer": [
+                    "config"
+                ]
+            }
+        },
+        "sendgrid": {
+            "\\Model\\Services\\SendgridAPI\\": {
+                "client-initializer": [
+                    "config"
+                ],
+                "mailer": [
+                    "sendgrid-client-initializer",
+                    "unsubscribe-repository"
+                ]
+            }
+        },
+        "twilio": {
+            "\\Model\\Services\\TwilioAPI\\": {
+                "client-initializer": [
+                    "config"
+                ],
+                "phone-number-buyer": [
+                    "twilio-client-initializer",
+                    "config"
+                ],
+                "service-dispatcher": [
+                    "twilio-client-initializer"
+                ],
+                "sms-messager": [
+                    "twilio-client-initializer"
+                ]
+            }
+        },
+        "ipdata": {
+            "\\Model\\Services\\IPDataAPI\\": {
+                "gateway": [
+                    "config"
+                ]
+            }
+        },
+        "braintree": {
+            "\\Model\\Services\\BraintreeAPI\\": {
+                "gateway-initializer": [
+                    "config"
+                ],
+                "client-token-generator": [
+                    "braintree-gateway-initializer"
+                ],
+                "customer-repository": [
+                    "braintree-gateway-initializer"
+                ],
+                "payment-method-repository": [
+                    "braintree-gateway-initializer"
+                ],
+                "subscription-repository": [
+                    "braintree-gateway-initializer"
+                ],
+                "api-manager": [
+                    "braintree-gateway-initializer"
+                ]
+            }
+        }
+    },
+    "aliases": {
+        "dao": "my-pdo",
+        "logger": "monolog-logger",
+        "mailer": "sendgrid-mailer"
+    }
+}

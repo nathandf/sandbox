@@ -1,0 +1,65 @@
+{
+    "core": {
+        "application-root-dir": "App/",
+        "application-namespace": "",
+        "controller-dir": "Controllers/",
+        "model-dir": "Model/Models/",
+        "view-dir": "Views/"
+    },
+    "app-details": {
+        "app_name": "PanicPal",
+        "app_url": "",
+        "app_business_name": "Sandbox",
+        "app_legal_business_name": "",
+        "app_founder": "Nathan Freeman",
+        "app_founder_email": "nathan.dean.freeman@gmail.com",
+        "app_customer_support_number": "8122763172",
+        "app_customer_support_email": "8122763172"
+    },
+    "templating": {
+        "templates": "App\/Views\/Components\/Templates\/",
+        "tmp": "App\/Views\/Components\/Templates\/tmp\/"
+    },
+    "approved_server_names": [],
+    "allowable_origins": [],
+    "indexable_domains": [],
+    "max_upload_filesize": "2GB",
+    "logs_directory": "App\/logs\/",
+    "routing": {
+        "development": {
+            "root": "\/\/"
+        },
+        "production": {
+            "root": ""
+        }
+    },
+    "email_settings": {
+        "development": {
+            "url_prefix": ""
+        },
+        "production": {
+            "url_prefix": ""
+        }
+    },
+    "packages": {
+        "html2pdf": {
+            "api_key": "f92493c2cf42e5e47af082d17ea227c739e2922b3b5643a5cb0b334204492092"
+        },
+        "twilio": {
+            "account_sid": "AC594867e02250c1d3bb129379cf0021c9",
+            "auth_token": "d9421fc6876d85e18b0dd1d95315c92d",
+            "development": {
+                "status_callback": "http:\/\/1428890c.ngrok.io\/interviewus.net\/webhooks\/twilio\/status\/"
+            },
+            "production": {
+                "status_callback": "https:\/\/www.interviewus.net\/webhooks\/twilio\/status\/"
+            }
+        },
+        "sendgrid": {
+            "api-key": "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"
+        },
+        "ipdata": {
+            "api-key": "939c6e36861de58f2e9c59354074e7c9866ccd9335dabfbd29a20385"
+        }
+    }
+}

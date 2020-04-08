@@ -1,0 +1,5 @@
+App/Conf/configs/database.development.json
+App/Conf/configs/database.production.json
+public/img/upload/
+public/videos/upload/
+.htaccess
