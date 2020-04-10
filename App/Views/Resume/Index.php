@@ -2,9 +2,9 @@
 
 namespace Views\Resume;
 
-use Core\View;
+use Core\WebPage;
 
-class Index extends View
+class Index extends WebPage
 {
 	public function render()
 	{

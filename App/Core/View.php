@@ -62,7 +62,7 @@ class View
 
     public function renderErrorMessage( $message )
     {
-        echo( "<div class='error-message --c-hide'>{$message}</div>" );
+        echo( "<div class='ble3 bsh br2 dt bc-red p10 bg-white hov-pointer --c-hide'>{$message}</div>" );
     }
 
     public function redirectWithData( $url, array $data )

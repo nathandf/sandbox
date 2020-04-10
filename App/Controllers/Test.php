@@ -16,9 +16,13 @@ class Test extends BaseController
         $repos = [];
 
         foreach ( $entities as $entity ) {
-        	$repos[] = $this->load( $entity . "-repository" );
+        	$repos[ $entity ] = $this->load( $entity . "-repository" );
         }
 
-        ppd( $repos );
+        \Benchmark::start( "countries" );
+        $countries = $repos[ "country" ]->select( "*" )->execute();
+        \Benchmark::end( "countries" );
+        \Benchmark::showAll();
+        ppd( $countries );
     }
 }

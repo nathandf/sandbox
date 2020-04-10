@@ -1,10 +1,15 @@
-{{parent Layouts/Core.php}}
+{{parent Layouts/ResumeBuilder.php}}
 
 {{block head}}
 {{/block}}
 
 {{block body}}
-	<?php include( "App/Views/Components/Navigation/RapidResume/MainMenu.php" ); ?>
+	<?php $this->loadComponent( "Navigation/RapidResume/MainMenu" ); ?>
     <hr>
 	<h1 class="tc p20">Rapid Resumé</h1>
+	<div class="w-max-xxlrg center p20">
+		<?php
+			$this->loadComponent( "Snippets/ResumeList", [ "resumeList" => $this->getData( "resumeList" ) ] );
+		?>
+	</div>
 {{/block}}
