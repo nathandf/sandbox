@@ -4,7 +4,7 @@
 			$this->renderErrorMessage( "Error loading ResumeList" );
 		} else {
 			if ( empty( $resumeList ) ) {
-				echo( "<div class=\"p20\">No Resumes to show</div>" );
+				echo( "<div>No Resumes to show</div>" );
 			}
 			echo( "<div class=\"g-std gg20\">" );
 			foreach ( $resumeList as $resume ) {

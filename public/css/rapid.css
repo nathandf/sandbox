@@ -44,7 +44,7 @@ select.inp{margin-top:4px;cursor:pointer;}select.inp:active{border-bottom:2px so
 /*Text*/
 .tc{text-align:center;}.tr{text-align:right;}.tl{text-align:left;}.tj{text-align:justify;}
 .td-none{text-decoration:none;}.td-underline{text-decoration:underline;}
-.tt-capitalize{text-transform:capitalize}.tt-lower{text-transform:lowercase}.tt-upper{text-transform:uppercase}
+.tt-c{text-transform:capitalize}.tt-l{text-transform:lowercase}.tt-u{text-transform:uppercase}
 .t-break{overflow-wrap:break-word;word-wrap:break-word;-ms-word-break:break-all;word-break:break-all;word-break:break-word;-ms-hyphens:auto;-moz-hyphens:auto;-webkit-hyphens:auto;hyphens:auto;}
 .to-ellipsis{white-space:nowrap;text-overflow:ellipsis;display:block;overflow:hidden;}
 

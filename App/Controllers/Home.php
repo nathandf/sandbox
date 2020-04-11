@@ -11,7 +11,7 @@ class Home extends BaseController
         $userAuthenticator = $this->load( "user-authenticator" );
 
         if ( !$userAuthenticator->user_authenticated ) {
-            $view = $this->view( "User/Auth" );
+            $view = $this->view( "User/Auth/SignIn" );
             $view->redirect( HOME . "sign-in" );
         }
     }

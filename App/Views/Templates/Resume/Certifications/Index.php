@@ -6,15 +6,15 @@
 {{block body}}
 	<?php $this->loadComponent( "Navigation/RapidResume/MainMenu" ); ?>
     <hr>
-	<h1 class="tc p20">Rapid Resumés</h1>
+	<h1 class="tc p20">Certifications</h1>
 	<div class="w-max-xlrg center">
 		<button class="button bg-green mb20 c-white bsh-w-hov"><span class="mr10">New</span>+</button>
 		<hr>
 		<div class="mt20">
 			<?php
 				$this->loadComponent(
-					"Snippets/ResumeList",
-					[ "resumeList" => $this->getData( "resumeList" ) ]
+					"Snippets/CertificationList",
+					[ "certificationList" => $this->getData( "certificationList" ) ]
 				);
 			?>
 		</div>

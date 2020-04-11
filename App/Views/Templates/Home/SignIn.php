@@ -26,7 +26,7 @@
                             <p class="label">Password</p>
                             <input id="password" type="password" name="password" required="required" class="inp" />
                         </div>
-                        <button type="submit" class="button mt20 theme-primary bsh-w-hov">Sign In</button>
+                        <button type="submit" class="button mt20 bg-blue c-white bsh-w-hov">Sign In</button>
                     </form>
                 </div>
             </div>

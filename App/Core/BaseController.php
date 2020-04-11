@@ -64,6 +64,7 @@ abstract class BaseController extends CoreObject
         if ( !isset( $this->params[ $param ] ) ) {
             return false;
         }
+        
         return true;
     }
 
