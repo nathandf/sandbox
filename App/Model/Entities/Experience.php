@@ -10,6 +10,9 @@ class Experience implements EntityInterface
 	public $user_id;
 	public $employer_id;
 	public $position;
-	public $start;
-	public $end;
+	public $month_start;
+	public $year_start;
+	public $month_end;
+	public $year_end;
+	public $present;
 }

@@ -25,9 +25,30 @@ class Experience extends BaseController
         $view = $this->view( "Resume/Experience/Index" );
         
         $experienceRepo = $this->load( "experience-repository" );
-        $experienceList = $experienceRepo->select( "*" )
+        $experiences = $experienceRepo->select( "*" )
             ->whereColumnValue( "user_id", "=", $this->user->id )
             ->execute();
+
+        $experienceList = [];
+
+        // Get the employer and duty entities related to this experience
+        $employerRepo = $this->load( "employer-repository" );
+        $dutyRepo = $this->load( "duty-repository" );
+        
+        foreach ( $experiences as $experience ) {
+
+            // Employer
+            $experience->employer = $employerRepo->select( "*" )
+                ->whereColumnValue( "id", "=", $experience->employer_id )
+                ->execute( "entity" );
+
+            // Duties
+            $experience->dutyList = $dutyRepo->select( "*" )
+                ->whereColumnValue( "experience_id", "=", $experience->id )
+                ->execute();
+
+            $experienceList[] = $experience;
+        }
 
         $view->assign( "experienceList", $experienceList );
 

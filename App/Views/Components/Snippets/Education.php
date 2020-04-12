@@ -5,13 +5,13 @@
 			<p class="fw6 fs16 tc mt20"><?=$education->award?></p>
 			<p class="c-muted tc"><?=$education->month_graduated?> <?=$education->year_graduated?></p>
 		<?php else: ?>
+			<p class="fw6 fs16 tc mt20"><?=$education->award?></p>
 			<p class="c-muted tc"><i>Currently Attending</i></p>
-			<p class="c-muted fw6 fs16 tc mt20"><?=$education->award?></p>
 		<?php endif; ?>
 	</div>
 	<hr>
 	<div class="p10">
-		<button class="c-dark-grey fr hov-bsh button"><i class="fas fa-ellipsis-h"></i></button>
+		<button class="c-dark-gray fr text-button"><i class="fas fa-ellipsis-h"></i></button>
 		<div class="clear"></div>
 	</div>
 </div>

@@ -1,6 +1,6 @@
 <div class="bg-white br5 bsh">
-	<div class="p20">
-		<p class="tc"><?=$resume->name?></p>
+	<div class="p20 g g1 gar-eq">
+		<p class="tc fw6 fs22"><?=$resume->name?></p>
 		<p class="c-muted"><?=$resume->description?></p>
 	</div>
 	<hr>

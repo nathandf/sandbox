@@ -65,6 +65,10 @@
                 "dao",
                 "entity-factory"
             ],
+            "duty-repository": [
+                "dao",
+                "entity-factory"
+            ],
             "education-repository": [
                 "dao",
                 "entity-factory"

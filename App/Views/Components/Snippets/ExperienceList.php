@@ -6,7 +6,7 @@
 			if ( empty( $experienceList ) ) {
 				echo( "<div>No Experiences to show</div>" );
 			}
-			echo( "<div class=\"g-std gg20\">" );
+			echo( "<div class=\"g gg20\">" );
 			foreach ( $experienceList as $experience ) {
 				$this->loadComponent( "Snippets/Experience", [ "experience" => $experience ] );
 			}

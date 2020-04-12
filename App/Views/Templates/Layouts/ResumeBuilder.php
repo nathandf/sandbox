@@ -5,7 +5,8 @@
 {{/block}}
 
 {{block body}}
-	<div class="bg-near-white vh100 w100">
+	<div class="bg-near-white w100">
 		{{parentblock body}}
+		<div class="p20"></div>
 	</div>
 {{/block}}

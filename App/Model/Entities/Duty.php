@@ -4,12 +4,10 @@ namespace Model\Entities;
 
 use Contracts\EntityInterface;
 
-class Certification implements EntityInterface
+class Duty implements EntityInterface
 {
 	public $id;
 	public $user_id;
-	public $name;
+	public $experience_id;
 	public $description;
-	public $issed_by;
-	public $date_awarded;
 }
