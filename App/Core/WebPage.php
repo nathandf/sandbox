@@ -14,6 +14,7 @@ class WebPage extends View
 
             //Create variables 
             foreach ( $data as $key => $value ) {
+                $key = str_replace( "-", "_", $key );
                 $$key = $value;
             }
 

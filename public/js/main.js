@@ -67,13 +67,7 @@ $( function() {
             }
         }
     );
-
-    $( "#nav-dropdown-button" ).on( "click", function() {
-        $( "#nav-items-container" ).slideToggle( 250 );
-        $( "#nav-items-container" ).scrollTop();
-    } );
  
-
     // Trigger modals with based on the buttons id
     $( ".--modal-trigger" ).on( "click", function () {
         if ( this.id != "" ) {
@@ -92,12 +86,19 @@ $( function() {
         return;
     } );
 
-    $( ".row-link" ).on( "click", function () {
-        window.location = $( this ).data( "href" );
+    $( ".--modal-close" ).on( "click", function () {
+        var modal = $( this ).data( "modal" );
+        $( "#" + modal + "-modal" ).hide();
     } );
 
-    $( ".lightbox-close" ).on( "click", function () {
-        $( this ).parent().hide();
+    $( ".--modal-overlay" ).on( "click", function ( e ) {
+        //Do nothing if modal overlay was not directly clicked
+        if( e.target !== e.currentTarget ) return;
+        $( this ).hide();
+    } );
+
+    $( ".row-link" ).on( "click", function () {
+        window.location = $( this ).data( "href" );
     } );
 
     $( ".con-message-success" ).delay( 5000 ).fadeOut( 1000 );

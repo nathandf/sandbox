@@ -8,14 +8,13 @@
     <hr>
 	<h1 class="tc p20">Accomplishments</h1>
 	<div class="w-max-lrg center tp10">
-		<button class="button bg-green mb20 c-white bsh-w-hov"><span class="mr10">New</span>+</button>
-		<div>
-			<form action="<?=HOME?>resume/skills/new">
-				<input type="hidden" name="csrf_token" value="<?php $this->echoData( "csrf_token" ); ?>">
-				<p class="label">Accomplishment description</p>
-				<textarea name="description" class="textarea mb20"></textarea>
-			</form>
-		</div>
+		<button class="--modal-trigger button bg-green mb20 c-white bsh-w-hov" data-modal="new-accomplishment"><span class="mr10">New</span>+</button>
+		<?php
+			$this->loadComponent(
+				"Modals/NewAccomplishment",
+				[ "csrf-token" => $this->getData( "csrf-token" ) ]
+			);
+		?>
 		<hr>
 		<div class="mt20">
 			<?php

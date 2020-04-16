@@ -8,7 +8,13 @@
     <hr>
 	<h1 class="tc p20">Certifications</h1>
 	<div class="w-max-lrg center tp10">
-		<button class="button bg-green mb20 c-white bsh-w-hov"><span class="mr10">New</span>+</button>
+		<button class="--modal-trigger button bg-green mb20 c-white bsh-w-hov" data-modal="new-certification"><span class="mr10">New</span>+</button>
+		<?php
+			$this->loadComponent(
+				"Modals/NewCertification",
+				[ "csrf-token" => $this->getData( "csrf-token" ) ]
+			);
+		?>
 		<hr>
 		<div class="mt20">
 			<?php

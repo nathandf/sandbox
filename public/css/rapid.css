@@ -124,6 +124,9 @@ select.inp{margin-top:4px;cursor:pointer;}select.inp:active{border-bottom:2px so
 .bsh-strong{box-shadow:0 10px 20px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);}
 .bsh-none{box-shadow:none;}
 
+/*Cursor*/
+.ca{cursor:alias;}.cas{cursor:all-scroll;}.cc{cursor:cell;}.cccm{cursor:context-menu;}.ccr{cursor:col-resize;}.ccopy{cursor:copy;}.ccross{cursor:crosshair;}.cd{cursor:default;}.cer{cursor:e-resize;}.cewr{cursor:ew-resize;}.cg{cursor:grab;}.cging{cursor:grabbing;}.ch{cursor:help;}.cm{cursor:move;}.cnr{cursor:n-resize;}.cner{cursor:ne-resize;}.cneswr{cursor:nesw-resize;}.cnsr{cursor:ns-resize;}.cnwr{cursor:nw-resize;}.cnwser{cursor:nwse-resize;}.cnd{cursor:no-drop;}.cn{cursor:none;}.cna{cursor:not-allowed;}.cp{cursor:pointer;}.cprog{cursor:progress;}.crr{cursor:row-resize;}.csr{cursor:s-resize;}.cser{cursor:se-resize;}.cswr{cursor:sw-resize;}.ctxt{cursor:text;}.cwr{cursor:w-resize;}.cw{cursor:wait;}.czi{cursor:zoom-in;}.czo{cursor:zoom-out;}
+
 /*Hover*/
 .hov-bsh:hover{box-shadow:0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);}
 .hov-bsh-strong:hover{box-shadow:0 10px 20px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);}
