@@ -12,7 +12,7 @@ class WebPage extends View
 
         if ( file_exists( $component_file ) ) {
 
-            //Create variables 
+            // Create variables 
             foreach ( $data as $key => $value ) {
                 $key = str_replace( "-", "_", $key );
                 $$key = $value;

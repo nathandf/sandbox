@@ -4,7 +4,7 @@ namespace Core\Http;
 
 class Request
 {
-	private $request_types = [ "get", "post", "put", "delete" ];
+	private $request_types = [ "get", "post", "put", "patch", "delete" ];
 	private $origin_whitelist = [];
 	private $crsf_token;
     public $flash_messages = [];

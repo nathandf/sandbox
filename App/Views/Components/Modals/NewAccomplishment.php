@@ -1,10 +1,10 @@
-<div id="new-accomplishment-modal" class="dn bg-black-60 pa br w100 h100 p20 --modal-overlay">
+<div id="new-accomplishment-modal" class="dn bg-black-60 pf ofy-a brtl w100 h100 p20 --toggle-self">
 	<div class="pr --modal-content w-max-med center bg-white bsh br5 mb20">
-		<div class="--modal-close fr fs22 fw6 c-dark-gray mr10 p10 cp" data-modal="new-accomplishment">x</div>
+		<div class="fr fs22 fw6 c-dark-gray mr10 p10 cp --toggle-id" data-target_id="new-accomplishment-modal">x</div>
 		<div class="clear"></div>
 		<h3 class="tc">Accomplishment</h2>
-			<form action="<?=HOME?>accomplishment/create" method="post">
-			<input type="hidden" name="csrf_token" value="{$csrf_token}">
+			<form action="<?=HOME?>resume/accomplishment/create" method="post">
+			<input type="hidden" name="csrf-token" value="{$csrf_token}">
 			<div class="p20 pb40">
 				<textarea name="description" class="textarea"></textarea>
 			</div>

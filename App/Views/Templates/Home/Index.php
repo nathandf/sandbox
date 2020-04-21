@@ -5,7 +5,7 @@
 {{/block}}
 
 {{block body}}
-	<?php include( "App/Views/Components/Navigation/MainMenu.php" ); ?>
+	<?php $this->loadComponent( "Navigation/MainMenu" ); ?>
     <hr>
     <div>
         <div class="bg-near-white pr">

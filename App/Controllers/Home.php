@@ -33,8 +33,8 @@ class Home extends BaseController
 		}
 
         // Assign the csrf token value and sign in value
-        $view->assign( "csrf_token", $this->request->csrf_token );
-        $view->assign( "sign_in", $this->request->csrf_token );
+        $view->assign( "csrf-token", $this->request->csrf_token );
+        $view->assign( "sign-in", $this->request->csrf_token );
         
         if ( $this->request->is( "get" ) ) {
             $dtoFactory = $this->load( "dto-factory" );

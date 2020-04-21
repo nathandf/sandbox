@@ -350,6 +350,10 @@ abstract class DataMapper implements DataMapperInterface
             $sql->bindParam( $token, $value );
         }
 
+        if ( $return_format === null ) {
+            return $sql->execute();
+        }
+
         $sql->execute();
 
         $data = [];
@@ -402,7 +406,7 @@ abstract class DataMapper implements DataMapperInterface
     }
 
     // Ensure the columns actually exist in the database
-    private function validateColumns( array $columns_to_validate )
+    public function validateColumns( array $columns_to_validate )
     {
         $columns = $this->getColumns();
 

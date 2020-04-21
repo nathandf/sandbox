@@ -20,7 +20,12 @@
         </div>
     </div>
     <div class="fr mr10">
-        <div itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a itemprop="item" href="<?=HOME?>resume/experience/" class="nav-link tc-theme-primary"><span itemprop="name">Experience</span></a>
+        <div itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a itemprop="item" href="<?=HOME?>resume/employers/" class="nav-link tc-theme-primary"><span itemprop="name">Employers</span></a>
+            <meta itemprop="position" content="0" />
+        </div>
+    </div>
+    <div class="fr mr10">
+        <div itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"><a itemprop="item" href="<?=HOME?>resume/employment/" class="nav-link tc-theme-primary"><span itemprop="name">Employment</span></a>
             <meta itemprop="position" content="0" />
         </div>
     </div>

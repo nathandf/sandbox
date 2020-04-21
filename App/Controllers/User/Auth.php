@@ -20,11 +20,11 @@ class Auth extends BaseController
             $requestValidator->validate(
                 $this->request,
                 [
-                    "csrf_token" => [
+                    "csrf-token" => [
                         "required" => true,
                         "equals-hidden" => $this->request->session( "csrf-token" )
                     ],
-                    "sign_in" => [
+                    "sign-in" => [
                         "required" => true
                     ],
                     "email" => [

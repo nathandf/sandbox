@@ -4,7 +4,7 @@ namespace Controllers\Resume;
 
 use Core\BaseController;
 
-class Education extends BaseController
+class Employer extends BaseController
 {
     private $user;
 
@@ -22,14 +22,7 @@ class Education extends BaseController
     
     public function indexAction()
     {
-        $view = $this->view( "Resume/Education/Index" );
-        
-        $educationRepo = $this->load( "education-repository" );
-        $educationList = $educationRepo->select( "*" )
-            ->whereColumnValue( "user_id", "=", $this->user->id )
-            ->execute();
-
-        $view->assign( "educationList", $educationList );
+        $view = $this->view( "Resume/Employer/Index" );
 
         $view->render();
     }
@@ -46,30 +39,45 @@ class Education extends BaseController
                     "csrf-token" => [
                         "required" => true
                     ],
-                    "institution" => [
-                        "required" => true,
+                    "employer_id" => [
+                    ],
+                    "name" => [
                         "max" => 256
                     ],
                     "city" => [
-                        "required" => true,
                         "max" => 256
                     ],
                     "state" => [
-                        "required" => true,
                         "max" => 256
                     ],
-                    "currently-attending" => [],
-                    "month-graduated" => [],
-                    "year-graduated" => []
+                    "country" => [],
+                    "position" => [],
+                    "currently-employed" => [],
+                    "start-month" => [],
+                    "start-year" => [],
+                    "end-month" => [],
+                    "end-year" => []
                 ],
-                "new-accomplishment"
+                "new-employment"
             )
         ) {
             ppd( $this->request->post() );
         }
-        
-        echo( "Didn't validate" );
-        ppd( $this->request->post() );
     }
 
+    public function deleteAction( $id = null )
+    {
+        $view = $this->view( "Resume/Employer/Delete" );
+
+        if ( is_null( $id ) ) {
+            $view->redirect( HOME . "resume/employers/" );
+        }
+
+        $employerRepo = $this->load( "employer-repository" );
+
+        $employerRepo->delete()
+            ->whereColumnValue( "user_id", "=", $this->user->id )
+            ->and()->columnValue( "id", "=", $id )
+            ->execute( null );
+    }
 }

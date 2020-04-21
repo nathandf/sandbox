@@ -4,7 +4,7 @@ namespace Model\Entities;
 
 use Contracts\EntityInterface;
 
-class Experience implements EntityInterface
+class Employment implements EntityInterface
 {
 	public $id;
 	public $user_id;
@@ -14,5 +14,5 @@ class Experience implements EntityInterface
 	public $year_start;
 	public $month_end;
 	public $year_end;
-	public $present;
+	public $currently_employed;
 }

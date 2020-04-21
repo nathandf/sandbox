@@ -1,6 +1,6 @@
 <?php
 
-namespace Views\Resume\Experience;
+namespace Views\Resume\Employment;
 
 use Core\WebPage;
 
@@ -14,7 +14,7 @@ class Index extends WebPage
 
 	public function render()
 	{
-		return $this->renderTemplate( "Resume/Experience/Index.php" );
+		return $this->renderTemplate( "Resume/Employment/Index.php" );
 	}
 
 	public function numToMonth( $num )

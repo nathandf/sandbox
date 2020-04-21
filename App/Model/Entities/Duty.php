@@ -8,6 +8,6 @@ class Duty implements EntityInterface
 {
 	public $id;
 	public $user_id;
-	public $experience_id;
+	public $employment_id;
 	public $description;
 }

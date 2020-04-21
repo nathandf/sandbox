@@ -4,7 +4,7 @@ namespace Controllers\Resume;
 
 use Core\BaseController;
 
-class Education extends BaseController
+class Certification extends BaseController
 {
     private $user;
 
@@ -13,25 +13,16 @@ class Education extends BaseController
         $userAuthenticator = $this->load( "user-authenticator" );
 
         if ( !$userAuthenticator->user_authenticated ) {
-            $view = $this->view( "User/Auth" );
+            $view = $this->view( "User/Auth/SignIn" );
             $view->redirect( HOME . "sign-in" );
         }
 
         $this->user = $userAuthenticator->getAuthenticatedUser();
     }
-    
+
     public function indexAction()
     {
-        $view = $this->view( "Resume/Education/Index" );
-        
-        $educationRepo = $this->load( "education-repository" );
-        $educationList = $educationRepo->select( "*" )
-            ->whereColumnValue( "user_id", "=", $this->user->id )
-            ->execute();
-
-        $view->assign( "educationList", $educationList );
-
-        $view->render();
+        ppd( __CLASS__ . " index. Will require 'id'" );
     }
 
     public function create()
@@ -46,30 +37,24 @@ class Education extends BaseController
                     "csrf-token" => [
                         "required" => true
                     ],
-                    "institution" => [
+                    "name" => [
                         "required" => true,
                         "max" => 256
                     ],
-                    "city" => [
-                        "required" => true,
+                    "description" => [
+                        "max" => 512
+                    ],
+                    "issued-by" => [
                         "max" => 256
                     ],
-                    "state" => [
-                        "required" => true,
-                        "max" => 256
-                    ],
-                    "currently-attending" => [],
-                    "month-graduated" => [],
-                    "year-graduated" => []
+                    "date-awarded" => [
+                        "max" => 32
+                    ]
                 ],
-                "new-accomplishment"
+                "new-certification"
             )
         ) {
             ppd( $this->request->post() );
         }
-        
-        echo( "Didn't validate" );
-        ppd( $this->request->post() );
     }
-
 }

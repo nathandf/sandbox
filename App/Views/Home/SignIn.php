@@ -2,9 +2,9 @@
 
 namespace Views\Home;
 
-use Core\View;
+use Core\WebPage;
 
-class SignIn extends View
+class SignIn extends WebPage
 {
 	public function render()
 	{

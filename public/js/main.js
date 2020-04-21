@@ -86,22 +86,51 @@ $( function() {
         return;
     } );
 
-    $( ".--modal-close" ).on( "click", function () {
-        var modal = $( this ).data( "modal" );
-        $( "#" + modal + "-modal" ).hide();
-    } );
-
-    $( ".--modal-overlay" ).on( "click", function ( e ) {
-        //Do nothing if modal overlay was not directly clicked
+    $( ".--toggle-self" ).on( "click", function ( e ) {
+        // Prevents everything except for the clicked target from toggling
         if( e.target !== e.currentTarget ) return;
-        $( this ).hide();
+        $( this ).toggle();
     } );
 
-    $( ".row-link" ).on( "click", function () {
+    $( ".--toggle-id" ).on( "click", function () {
+        $( "#" + $( this ).data( "target_id" ) ).toggle();
+    } );
+
+    $( ".--toggle-class" ).on( "click", function () {
+        $( "." + $( this ).data( "target_class" ) ).toggle();
+    } );
+
+    $( ".--checked-hide-id" ).on( "click", function () {
+        targetElements = $( "#" + $( this ).data( "target_id" ) );
+        if ( $( this ).is( ":checked" ) ) {
+            targetElements.hide();
+
+            return;
+        }
+
+        targetElements.show();
+
+        return;
+    } );
+
+    $( ".--checked-hide-class" ).on( "click", function () {
+        targetElements = $( "." + $( this ).data( "target_class" ) );
+        if ( $( this ).is( ":checked" ) ) {
+            targetElements.hide();
+
+            return;
+        }
+
+        targetElements.show();
+
+        return;
+    } );
+
+    $( ".--link" ).on( "click", function () {
         window.location = $( this ).data( "href" );
     } );
 
-    $( ".con-message-success" ).delay( 5000 ).fadeOut( 1000 );
+    $( ".--success" ).delay( 5000 ).fadeOut( 1000 );
 
     // Phone number formatting
     $( "input[type='tel'][name='national_number']" ).on( "keyup", function () {

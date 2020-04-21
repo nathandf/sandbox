@@ -15,7 +15,7 @@ abstract class Repository implements RepositoryInterface
     protected $comparison_operators = [ "=", "<", "<=", ">", ">=", "<>" ];
     protected $logical_operators = [ "is", "not", "is not", "in", "not in", "is null" ];
     protected $arithmetic_operators = [ "+", "-", "/", "*", "%" ];
-    protected $return_formats = [ "entity-array", "entity", "collection", "json", "array"  ];
+    protected $return_formats = [ "entity-array", "entity", "collection", "json", "array", null ];
     protected $query_pointer = 0;
     protected $parameterization_pointer = 0;
     public $token_map = []; // TODO change to protected
@@ -203,7 +203,7 @@ abstract class Repository implements RepositoryInterface
         $mapper->delete( $keys, $values );
     }
 
-    public function delete( $entities )
+    public function deleteEntity( $entities )
     {
         $mapper = $this->getMapper();
 
@@ -241,6 +241,8 @@ abstract class Repository implements RepositoryInterface
     /*
     * New API
     */
+
+    /* CRUD */
     public function select( $cols )
     {
         // This runs before every query
@@ -257,13 +259,22 @@ abstract class Repository implements RepositoryInterface
             return $this;
         }
 
-        if ( $cols == "*" ) {
-            $this->query .= " {$cols} FROM `{$this->mapper->getTable()}`";
+        if ( $cols == "*" || strtolower( $cols ) == "all" ) {
+            $this->query .= " * FROM `{$this->mapper->getTable()}`";
 
             return $this;
         }
 
         $this->query .= " `{$cols}` FROM `{$this->mapper->getTable()}`";
+
+        return $this;
+    }
+
+    public function delete()
+    {
+        $this->startQuery();
+
+        $this->query .= "DELETE FROM `{$this->mapper->getTable()}`";
 
         return $this;
     }

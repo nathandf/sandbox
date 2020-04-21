@@ -5,7 +5,7 @@
 {{/block}}
 
 {{block body}}
-    <?php include( "App/Views/Components/Navigation/MainMenu.php" ); ?>
+    <?php $this->loadComponent( "Navigation/MainMenu" ); ?>
     <hr>
     <div class="pr bg-near-white">
         <div class="p20 pr z2">
@@ -13,13 +13,13 @@
                 <h2 class="fw6 fs32 tc pb20">Sign in</h2>
                 <?php
                     if ( !is_null( $this->getData( "error" ) ) ) {
-                        $this->renderError( $this->getVar( "error" ) );
+                        $this->renderError( $this->getData( "error" ) );
                     }
                 ?>
                 <div>
                     <form action="<?=HOME?>user/auth/sign-in" method="post">
-                        <input type="hidden" name="csrf_token" value="<?php $this->echoData( "csrf_token" ); ?>" />
-                        <input type="hidden" name="sign_in" value="<?php $this->echoData( "csrf_token" ); ?>" />
+                        <input type="hidden" name="csrf-token" value="<?php $this->echoData( "csrf-token" ); ?>" />
+                        <input type="hidden" name="sign-in" value="<?php $this->echoData( "csrf-token" ); ?>" />
                         <p class="label">Email</p>
                         <input type="email" name="email" required="required" value="<?php $this->echoData( "email" ) ?>" class="inp" />
                         <div class="container-password-component">
