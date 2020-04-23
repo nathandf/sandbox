@@ -2,36 +2,20 @@
 
 namespace Core;
 
+use Core\Http\Response,
+    Core\TemplateInheritenceResolver;
+
 class View 
 {
-    public $templateInheritenceResolver;
+    private Response $response;
     private $origin;
     private $referer;
     private $csrf_token;
 
     public function __construct()
     {
-        $this->templateInheritenceResolver = new \Core\TemplateInheritenceResolver;
         $this->origin = null;
         $this->referer = null;
-    }
-
-    public function renderTemplate( $filename, $data = [] )
-    {
-        if ( $this->templateInheritenceResolver->buildTemplate( $filename ) ) {
-
-            ob_start();
-
-            // Display the temp file
-            require_once( $this->templateInheritenceResolver->getTempFile() );
-
-            ob_flush();
-
-            // Delete the tempfile
-            $this->templateInheritenceResolver->removeTempFile();
-
-            return;
-        }
     }
 
     public function assign( $index, $data, $sanitize = true )
@@ -63,11 +47,6 @@ class View
         }
 
         return null;
-    }
-
-    public function renderErrorMessage( $message )
-    {
-        echo( "<div class='ble3 bsh br2 dt bc-red p10 bg-white hov-pointer --c-hide'>{$message}</div>" );
     }
 
     public function redirect( $redirect_url, $http_response_code = 200 )

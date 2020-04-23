@@ -80,13 +80,17 @@ class Education extends BaseController
 
             // Return the employer entity if request is asynchronous
             if ( $this->request->isAsync() ) {
-                $view->respondWithJson();
+                $view->respond();
             }
 
             // If is form submission, redirect back to where the form was submitted
             $view->back();
         }
 
+         // Return the employer entity if request is asynchronous
+        if ( $this->request->isAsync() ) {
+            $view->respondWithJson();
+        }
         $view->backWithData( [ "error" => $requestValidator->getError( 0 ) ], true );
     }
 }
