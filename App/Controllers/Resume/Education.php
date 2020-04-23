@@ -69,17 +69,17 @@ class Education extends BaseController
             $entityFactory = $this->load( "entity-factory" );
 
             $employer = $entityFactory->build( "Employer" );
-            $employer->name = $this->request->post( "name" );
+            $employer->institution = $this->request->post( "institution" );
             $employer->city = $this->request->post( "city" );
             $employer->state = $this->request->post( "state" );
             $employer->currently_attending = $this->request->post( "current-attending" );
             $employer->month_graduated = $this->request->post( "month_graduated" );
             $employer->currently_attending = $this->request->post( "year_graduated" );
 
-            $employerRepo->save();
+            $employer = $employerRepo->save( $employer );
 
             // Return the employer entity if request is asynchronous
-            if ( $this->request->isAsync() ) {
+            if ( $this->request->isAjax() ) {
                 $view->respond();
             }
 
@@ -89,8 +89,13 @@ class Education extends BaseController
 
          // Return the employer entity if request is asynchronous
         if ( $this->request->isAsync() ) {
-            $view->respondWithJson();
+            $view->respond()
+                ->setSuccess( false )
+                ->setHttpStatusCode( 201 )
+                ->addMessage( $requestValidator->getError( 0 ) )
+                ->send();
         }
+
         $view->backWithData( [ "error" => $requestValidator->getError( 0 ) ], true );
     }
 }

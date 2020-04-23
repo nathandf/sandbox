@@ -2,13 +2,14 @@
 
 namespace Core;
 
-use Core\Http\Request;
+use Core\Http\Request,
+    Conf\Config;
 
 abstract class BaseController extends CoreObject
 {
-    protected $container;
-    protected $config;
-    protected $request;
+    protected DIContainer $container;
+    protected Request $request;
+    protected Config $config;
     protected $params;
     protected $viewData = [];
 

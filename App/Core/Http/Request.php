@@ -62,7 +62,7 @@ class Request
 		return null; 
 	}
 
-	public function isAjax()
+	public function isAjax() : bool
 	{
 		if (
 			!empty( $_SERVER[ "HTTP_X_REQUESTED_WITH" ] ) &&

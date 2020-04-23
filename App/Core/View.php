@@ -18,6 +18,12 @@ class View
         $this->referer = null;
     }
 
+    public function respond()
+    {
+        $this->response = new Response;
+        return $this->response;
+    }
+
     public function assign( $index, $data, $sanitize = true )
     {
         $this->data[ $index ] = $data;
