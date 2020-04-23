@@ -70,9 +70,15 @@ abstract class BaseController extends CoreObject
 
     protected function view( $name )
     {
-        $view = "\\Views\\{$this->formatViewName($name)}";
+        $viewClass = "\\Views\\{$this->formatViewName($name)}";
+
+        $view = new $viewClass;
+
+        $view->setCSRFToken( $this->request->session( "csrf-token" ) );
+        $view->setOrigin( $this->request->getOrigin() );
+        $view->setReferer( $this->request->getReferer() );
         
-        return new $view;
+        return $view;
     }
 
     private function formatViewName( $name )

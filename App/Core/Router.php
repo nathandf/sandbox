@@ -80,7 +80,7 @@ class Router
             : $this->createRelativeURL( $url ) );
 
         define( "HOME", $root );
-
+        
         if ( $this->match( $url ) ) {
             $request->setRoute( $this->params );
         }

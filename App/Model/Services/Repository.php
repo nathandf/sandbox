@@ -20,8 +20,7 @@ abstract class Repository implements RepositoryInterface
     protected $parameterization_pointer = 0;
     public $token_map = []; // TODO change to protected
     protected $executed_queries = [];
-    protected $query_count = 0;
-    public $queries = []; // TODO change to protected
+    public $queued_queries = []; // TODO change to protected
     protected $query = null;
     protected $expression_starts = 0;
     protected $expression_ends = 0;
@@ -103,12 +102,12 @@ abstract class Repository implements RepositoryInterface
     }
 
     // Basic CRUD
-    public function insert( array $key_values, $return_object = true )
+    public function insert( array $key_values, $return_entity = true )
     {
         $mapper = $this->getMapper();
         $entity = $mapper->build( $this->entityName );
 
-        return $mapper->insert( $key_values, $return_object );
+        return $mapper->insert( $key_values, $return_entity );
     }
 
     public function save( $entity )
@@ -248,24 +247,26 @@ abstract class Repository implements RepositoryInterface
         // This runs before every query
         $this->startQuery();
 
-        $this->query = "SELECT";
+        // Set the query information
+        $this->query[ $this->query_pointer ][ "type" ] = "select";
+        $this->query[ $this->query_pointer ][ "query" ] = "SELECT";
 
         if ( is_array( $cols ) ) {
             foreach ( $cols as $key => $col ) {
                 $cols[ $key ] = "`{$col}`";
             }
-            $this->query .= " " . implode( ", ", $cols ) . " FROM `{$this->mapper->getTable()}`";
+            $this->query[ $this->query_pointer ][ "query" ] .= " " . implode( ", ", $cols ) . " FROM `{$this->mapper->getTable()}`";
 
             return $this;
         }
 
         if ( $cols == "*" || strtolower( $cols ) == "all" ) {
-            $this->query .= " * FROM `{$this->mapper->getTable()}`";
+            $this->query[ $this->query_pointer ][ "query" ] .= " * FROM `{$this->mapper->getTable()}`";
 
             return $this;
         }
 
-        $this->query .= " `{$cols}` FROM `{$this->mapper->getTable()}`";
+        $this->query[ $this->query_pointer ][ "query" ] .= " `{$cols}` FROM `{$this->mapper->getTable()}`";
 
         return $this;
     }
@@ -274,7 +275,8 @@ abstract class Repository implements RepositoryInterface
     {
         $this->startQuery();
 
-        $this->query .= "DELETE FROM `{$this->mapper->getTable()}`";
+        $this->query[ $this->query_pointer ][ "type" ] = "delete";
+        $this->query[ $this->query_pointer ][ "query" ] = "DELETE FROM `{$this->mapper->getTable()}`";
 
         return $this;
     }
@@ -313,31 +315,31 @@ abstract class Repository implements RepositoryInterface
 
     public function where()
     {
-        $this->query .= " WHERE";
+        $this->query[ $this->query_pointer ][ "query" ] .= " WHERE";
         return $this;
     }
 
     public function _and()
     {
-        $this->query .= " AND";
+        $this->query[ $this->query_pointer ][ "query" ] .= " AND";
         return $this;
     }
 
     public function is()
     {
-        $this->query .= " IS";
+        $this->query[ $this->query_pointer ][ "query" ] .= " IS";
         return $this;
     }
 
     public function not()
     {
-        $this->query .= " NOT";
+        $this->query[ $this->query_pointer ][ "query" ] .= " NOT";
         return $this;
     }
 
     public function andStart()
     {
-        $this->query .= " AND";
+        $this->query[ $this->query_pointer ][ "query" ] .= " AND";
         return $this->expressionStart();
     }
 
@@ -348,13 +350,13 @@ abstract class Repository implements RepositoryInterface
 
     public function _or()
     {
-        $this->query .= " OR";
+        $this->query[ $this->query_pointer ][ "query" ] .= " OR";
         return $this;
     }
 
     public function orStart()
     {
-        $this->query .= " OR";
+        $this->query[ $this->query_pointer ][ "query" ] .= " OR";
         return $this->expressionStart();
     }
 
@@ -365,7 +367,7 @@ abstract class Repository implements RepositoryInterface
 
     public function column( $col )
     {
-        $this->query .= " `{$col}`";
+        $this->query[ $this->query_pointer ][ "query" ] .= " `{$col}`";
 
         return $this;
     }
@@ -413,7 +415,7 @@ abstract class Repository implements RepositoryInterface
             $operator = strtoupper( $operator );
         }
 
-        $this->query .= " {$operator} {$value}";
+        $this->query[ $this->query_pointer ][ "query" ] .= " {$operator} {$value}";
 
         return $this;
     }
@@ -435,7 +437,7 @@ abstract class Repository implements RepositoryInterface
         }
 
         // Start the query with the operator
-        $this->query .= " IN (";
+        $this->query[ $this->query_pointer ][ "query" ] .= " IN (";
 
         // Get the number of items in the array
         $item_count = count( $array );
@@ -456,7 +458,7 @@ abstract class Repository implements RepositoryInterface
             // Check if last item in array. If so, don't put a comma and close the parenthesis
             $ending = ( $iteration != $item_count ? ", " : " )" );
 
-            $this->query .= " {$item}{$ending}";
+            $this->query[ $this->query_pointer ][ "query" ] .= " {$item}{$ending}";
 
             $iteration++;
         }
@@ -482,7 +484,7 @@ abstract class Repository implements RepositoryInterface
 
         $order = strtoupper( $order );
 
-        $this->query .= " ORDER BY `{$col}` {$order}";
+        $this->query[ $this->query_pointer ][ "query" ] .= " ORDER BY `{$col}` {$order}";
 
         return $this;
     }
@@ -493,7 +495,7 @@ abstract class Repository implements RepositoryInterface
             throw new \Exception( "Argument in 'limit' must be an integer" );
         }
 
-        $this->query .= " LIMIT {$number}";
+        $this->query[ $this->query_pointer ][ "query" ] .= " LIMIT {$number}";
 
         return $this;
     }
@@ -502,7 +504,7 @@ abstract class Repository implements RepositoryInterface
     {
         $this->expression_starts++;
 
-        $this->query .= " (";
+        $this->query[ $this->query_pointer ][ "query" ] .= " (";
 
         return $this;
     }
@@ -511,7 +513,7 @@ abstract class Repository implements RepositoryInterface
     {
         $this->expression_ends++;
 
-        $this->query .= " )";
+        $this->query[ $this->query_pointer ][ "query" ] .= " )";
 
         return $this;
     }
@@ -538,11 +540,11 @@ abstract class Repository implements RepositoryInterface
         $this->validateExpressions();
 
         // End query with semicolon
-        $this->query .= ";";
+        $this->query[ $this->query_pointer ][ "query" ] .= ";";
 
         // Add to query queue
-        $this->queries[ $this->query_pointer ] = [
-            "query" => $this->query,
+        $this->queued_queries[ $this->query_pointer ] = [
+            "query" => $this->query[ $this->query_pointer ][ "query" ],
             "return_format" => $return_format
         ];
 
@@ -560,16 +562,22 @@ abstract class Repository implements RepositoryInterface
         $this->validateExpressions();
 
         // End query with semicolon
-        $this->query .= ";";
+        $this->query[ $this->query_pointer ][ "query" ] .= ";";
 
         // Update executed queries list
-        $this->executed_queries[] = $this->query;
+        $this->executed_queries[] = $this->query[ $this->query_pointer ][ "query" ];
 
-        $query_to_run = $this->query;
+        $query_to_run = $this->query[ $this->query_pointer ][ "query" ];
+
+        // If query is delete, set return form to null.
+        if ( $this->query[ $this->query_pointer ][ "type" ] === "delete" ) {
+            $return_format = null;
+        }
 
         // Reset query and parameterization pointer
         $this->resetQuery();
         $this->resetParameterizationPointer();
+
 
         // TODO Consider checking if index $this->query_pointer isset in $this->token_map
         return $this->mapper->execute(
@@ -587,7 +595,7 @@ abstract class Repository implements RepositoryInterface
 
         // IMPORTANT: The key of each queued query and they key of each queued query's
         // parameter token map are the same
-        foreach ( $this->queries as $query_pointer => $query ) {
+        foreach ( $this->queued_queries as $query_pointer => $query ) {
             $token_map = [];
             if ( isset( $this->token_map[ $query_pointer ] ) ) {
                 $token_map = $this->token_map[ $query_pointer ];

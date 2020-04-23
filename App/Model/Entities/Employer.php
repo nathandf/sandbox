@@ -10,6 +10,6 @@ class Employer implements EntityInterface
 	public $user_id;
 	public $name;
 	public $city;
-	public $state;
+	public $region;
 	public $country;
 }

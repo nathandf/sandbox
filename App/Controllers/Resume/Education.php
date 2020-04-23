@@ -36,6 +36,7 @@ class Education extends BaseController
 
     public function create()
     {
+        $view = $this->view( "Resume/Education/Delete" );
         $requestValidator = $this->load( "request-validator" );
 
         if (
@@ -46,7 +47,7 @@ class Education extends BaseController
                     "csrf-token" => [
                         "required" => true
                     ],
-                    "institution" => [
+                    "name" => [
                         "required" => true,
                         "max" => 256
                     ],
@@ -61,15 +62,31 @@ class Education extends BaseController
                     "currently-attending" => [],
                     "month-graduated" => [],
                     "year-graduated" => []
-                ],
-                "new-accomplishment"
+                ]
             )
         ) {
-            ppd( $this->request->post() );
-        }
-        
-        echo( "Didn't validate" );
-        ppd( $this->request->post() );
-    }
+            $employerRepo = $this->load( "employer-repository" );
+            $entityFactory = $this->load( "entity-factory" );
 
+            $employer = $entityFactory->build( "Employer" );
+            $employer->name = $this->request->post( "name" );
+            $employer->city = $this->request->post( "city" );
+            $employer->state = $this->request->post( "state" );
+            $employer->currently_attending = $this->request->post( "current-attending" );
+            $employer->month_graduated = $this->request->post( "month_graduated" );
+            $employer->currently_attending = $this->request->post( "year_graduated" );
+
+            $employerRepo->save();
+
+            // Return the employer entity if request is asynchronous
+            if ( $this->request->isAsync() ) {
+                $view->respondWithJson();
+            }
+
+            // If is form submission, redirect back to where the form was submitted
+            $view->back();
+        }
+
+        $view->backWithData( [ "error" => $requestValidator->getError( 0 ) ], true );
+    }
 }

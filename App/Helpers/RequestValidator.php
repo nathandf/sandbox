@@ -14,7 +14,7 @@ class RequestValidator
 		$this->required_fields = $fields;
 	}
 
-	public function validate( Request $request, $validation, $error_index )
+	public function validate( Request $request, $validation, $error_index = null ): bool
 	{
 		$rule_set = $validation;
 		if ( !is_array( $validation ) ) {
@@ -156,9 +156,15 @@ class RequestValidator
 		return false;
 	}
 
-	public function addError( $error_index, $error_message )
+	public function addError( $error_index, $error_message ) : RequestValidator
 	{
-		$this->errors[ $error_index ][] = $error_message;
+		if ( !is_null( $error_index ) ) {
+			$this->errors[ $error_index ][] = $error_message;
+			return $this;
+		}
+
+		$this->errors[] = $error_message;
+		return $this;
 	}
 
 	public function getErrors( $error_index = null )
@@ -168,6 +174,15 @@ class RequestValidator
 		}
 
 		return $this->errors;
+	}
+
+	public function getError( $index ) : ?string
+	{
+		if ( array_key_exists( $index, $this->errors ) ) {
+			return $this->errors[ $index ];
+		}
+
+		return null;
 	}
 
 	private function isMin( $value, $min )

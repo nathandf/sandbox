@@ -182,6 +182,15 @@ class Request
 		return $origin;
 	}
 
+	public function getReferer()
+	{
+		if ( array_key_exists( "HTTP_REFERER", $_SERVER ) ) {
+			return $_SERVER[ "HTTP_REFERER" ];
+		}
+
+		return $origin = $_SERVER[ "REMOTE_ADDR" ];
+	}
+
 	// Session functions
 	public function setSession( $index, $value )
     {

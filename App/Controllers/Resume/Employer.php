@@ -78,6 +78,6 @@ class Employer extends BaseController
         $employerRepo->delete()
             ->whereColumnValue( "user_id", "=", $this->user->id )
             ->and()->columnValue( "id", "=", $id )
-            ->execute( null );
+            ->execute();
     }
 }

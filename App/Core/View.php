@@ -5,10 +5,15 @@ namespace Core;
 class View 
 {
     public $templateInheritenceResolver;
+    private $origin;
+    private $referer;
+    private $csrf_token;
 
     public function __construct()
     {
         $this->templateInheritenceResolver = new \Core\TemplateInheritenceResolver;
+        $this->origin = null;
+        $this->referer = null;
     }
 
     public function renderTemplate( $filename, $data = [] )
@@ -65,10 +70,21 @@ class View
         echo( "<div class='ble3 bsh br2 dt bc-red p10 bg-white hov-pointer --c-hide'>{$message}</div>" );
     }
 
-    public function redirectWithData( $url, array $data )
+    public function redirect( $redirect_url, $http_response_code = 200 )
+    {
+        http_response_code( $http_response_code );
+        header( "Location: " . $redirect_url );
+        exit();
+    }
+
+    public function redirectWithData( $url, array $data, $strip_query_string = false )
     {
         if ( $url == "" ) {
             $url = HOME;
+        }
+
+        if ( $strip_query_string ) {
+            $url = $this->stripQueryString( $url );
         }
 
         if ( !empty( $data ) ) {
@@ -79,16 +95,24 @@ class View
         exit();
     }
 
-    public function redirect( $redirect_url, $http_response_code = 200 )
+    public function back( $strip_query_string = true ) : void
     {
-        http_response_code( $http_response_code );
-        header( "Location: " . $redirect_url );
-        exit();
+        if ( $strip_query_string ) {
+            $this->redirect( $this->stripQueryString( $this->getReferer() ) );
+        }
+
+        $this->redirect( $this->getReferer() );
     }
 
-    public function addErrorMessage( $index, $message )
+    public function backWithData( array $data, $strip_query_string = true ) : void
+    {
+        $this->redirectWithData( $this->getReferer(), $data, $strip_query_string );
+    }
+
+    public function addErrorMessage( $index, $message ) : View
     {
         $this->data[ "error_messages" ][ $index ] = $message;
+        return $this;
     }
 
     public function stripQueryString( $url )
@@ -98,5 +122,38 @@ class View
         }
 
         return $url;
+    }
+
+    public function setOrigin( $origin ) : View
+    {
+        $this->origin = $origin;
+        return $this;
+    }
+
+    public function getOrigin() : ?string
+    {
+        return $this->origin;
+    }
+
+    public function setReferer( $referer ) : View
+    {
+        $this->referer = $referer;
+        return $this;
+    }
+
+    public function getReferer() : ?string
+    {
+        return $this->referer;
+    }
+
+    public function setCSRFToken( $csrf_token ) : View
+    {
+        $this->csrf_token = $csrf_token;
+        return $this;
+    }
+
+    public function getCSRFToken( $csrf_token ) : ?string
+    {
+        return $this->csrf_token;
     }
 }
