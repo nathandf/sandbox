@@ -1,5 +1,5 @@
 <div>
-	<select name="month" class="inp" id="">
+	<select name="<?php echo( ( isset( $name ) ? $name : "month" ) ); ?>" class="inp" id="<?php echo( ( isset( $id ) ? $id : "" ) ); ?>">
 		<option value="1">January</option>
 		<option value="2">February</option>
 		<option value="3">March</option>

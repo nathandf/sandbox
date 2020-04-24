@@ -2,13 +2,14 @@
 
 namespace Model\Services;
 
-use Model\Mappers\DataMapper;
-use Contracts\RepositoryInterface;
+use Model\Mappers\DataMapper,
+    Contracts\RepositoryInterface,
+    Contracts\EntityInterface;
 
 abstract class Repository implements RepositoryInterface
 {
     protected $entityName;
-    protected $mapper;
+    protected Datamapper $mapper;
     protected $mapperNamespace;
 
     // New Repository
@@ -110,7 +111,7 @@ abstract class Repository implements RepositoryInterface
         return $mapper->insert( $key_values, $return_entity );
     }
 
-    public function save( $entity )
+    public function save( EntityInterface $entity )
     {
         // Make sure the correct entity type was provided
         $this->validateEntity( $entity );
@@ -120,9 +121,15 @@ abstract class Repository implements RepositoryInterface
         return $mapper->save( $entity );
     }
 
-    public function persist( $entity )
+    /* New API*/
+    public function persist( EntityInterface $entity )
     {
-        return $this->save( $entity );
+        // Make sure the correct entity type was provided
+        $this->validateEntity( $entity );
+
+        $mapper = $this->getMapper();
+
+        return $mapper->save( $entity );
     }
 
     public function duplicateAndPersist( $entity )

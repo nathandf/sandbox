@@ -5,7 +5,7 @@ namespace Core;
 use Core\Http\Request,
     Conf\Config;
 
-abstract class BaseController extends CoreObject
+abstract class BaseController
 {
     protected DIContainer $container;
     protected Request $request;
@@ -36,7 +36,7 @@ abstract class BaseController extends CoreObject
 
             // Run the after method
             $this->after( ...$args );
-
+            
             return;
         }
 
@@ -51,6 +51,19 @@ abstract class BaseController extends CoreObject
 
     protected function after()
     {}
+
+    public function setContainer( DIContainer $container )
+    {
+        $this->container = $container;
+    }
+
+    // load allows all children of CoreObject to load in service objects
+    // without explicitly referencing the method of retrival. In this case, it's a
+    // simple Dependency Invesion / IoC Container
+    public function load( $service )
+    {
+        return $this->container->getService( $service );
+    }
 
     protected function requireParam( $param )
     {

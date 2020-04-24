@@ -29,11 +29,24 @@
 					<div class="g g2 gg20 mt10">
 						<div>
 							<p class="label">Month</p>
-							<?php $this->loadComponent( "Inputs/MonthSelect" ); ?>
+							<?php
+								$this->loadComponent(
+									"Inputs/MonthSelect",
+									[ "name" => "month-graduated" ]
+								);
+							?>
 						</div>
 						<div>
 							<p class="label">Year</p>
-							<?php $this->loadComponent( "Inputs/YearSelect" ); ?>
+							<?php
+								$this->loadComponent(
+									"Inputs/YearSelect",
+									[
+										"name" => "year-graduated",
+										"range" => 1
+									]
+								);
+							?>
 						</div>
 					</div>
 					<div class="mt20">

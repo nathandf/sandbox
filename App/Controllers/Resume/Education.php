@@ -34,7 +34,7 @@ class Education extends BaseController
         $view->render();
     }
 
-    public function create()
+    public function createAction()
     {
         $view = $this->view( "Resume/Education/Delete" );
         $requestValidator = $this->load( "request-validator" );
@@ -47,7 +47,7 @@ class Education extends BaseController
                     "csrf-token" => [
                         "required" => true
                     ],
-                    "name" => [
+                    "institution" => [
                         "required" => true,
                         "max" => 256
                     ],
@@ -65,33 +65,38 @@ class Education extends BaseController
                 ]
             )
         ) {
-            $employerRepo = $this->load( "employer-repository" );
+            $educationRepo = $this->load( "education-repository" );
             $entityFactory = $this->load( "entity-factory" );
 
-            $employer = $entityFactory->build( "Employer" );
-            $employer->institution = $this->request->post( "institution" );
-            $employer->city = $this->request->post( "city" );
-            $employer->state = $this->request->post( "state" );
-            $employer->currently_attending = $this->request->post( "current-attending" );
-            $employer->month_graduated = $this->request->post( "month_graduated" );
-            $employer->currently_attending = $this->request->post( "year_graduated" );
+            $education = $entityFactory->build( "Education" );
+            $education->user_id = $this->user->id;
+            $education->institution = $this->request->post( "institution" );
+            $education->city = $this->request->post( "city" );
+            $education->state = $this->request->post( "state" );
+            $education->month_graduated = $this->request->post( "month-graduated" );
+            $education->year_graduated = $this->request->post( "year-graduated" );
+            $education->currently_attending = $this->request->post( "currently-attending" );
 
-            $employer = $employerRepo->save( $employer );
+            $education = $educationRepo->persist( $education );
 
-            // Return the employer entity if request is asynchronous
-            if ( $this->request->isAjax() ) {
-                $view->respond();
+            // Return the education entity if request is asynchronous
+            if ( !$this->request->isAjax() ) {
+                $view->respond()
+                ->setSuccess( true )
+                ->setHttpStatusCode( 201 )
+                ->setData( [ $education ] )
+                ->send();
             }
 
             // If is form submission, redirect back to where the form was submitted
             $view->back();
         }
 
-         // Return the employer entity if request is asynchronous
-        if ( $this->request->isAsync() ) {
+         // Return the education entity if request is asynchronous
+        if ( $this->request->isAjax() ) {
             $view->respond()
                 ->setSuccess( false )
-                ->setHttpStatusCode( 201 )
+                ->setHttpStatusCode( 422 )
                 ->addMessage( $requestValidator->getError( 0 ) )
                 ->send();
         }

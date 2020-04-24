@@ -1,8 +1,12 @@
 <div>
-	<select name="year" class="inp" id="">
+	<select name="<?php echo( ( isset( $name ) ? $name : "year" ) ); ?>" class="inp" id="<?php echo( ( isset( $id ) ? $id : "" ) ); ?>">
 		<?php
 			$current_year = date( "Y" );
-			$max_year = $current_year - 100;
+			$max_year = $current_year - ( ( isset( $range ) && is_int( $range ) && $range >= 1 ) ? $range : 100 );
+
+			echo( "<option value='{$current_year}' selected=\"selected\">{$current_year}</option>" );
+
+			$current_year--;
 
 			// Create options for the current year all the way back to 80 years.
 			for ( $year = $current_year; $year >= $max_year; $year-- ) {
