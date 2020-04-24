@@ -1,16 +1,26 @@
+<?php
+	// F = Full textual representation
+	// M = Short textual representation (3 letters)
+	// m = Numeric representation with leading zeros
+	// n = Numeric representation without leading zeros
+	$month_formats = [ "F", "M", "m", "n" ];
+
+	// Set the default 'display' month format to 'F' or full textual representation
+	// if not specified.
+	if ( isset( $display_format ) === false || !in_array( $display_format, $month_formats ) ) {
+		$display_format = "F";
+	}
+
+	// Set the default 'value' month format to 'n' or numbers without leading zeros
+	// if not specified.
+	if ( isset( $value_format ) === false || !in_array( $value_format, $month_formats ) ) {
+		$value_format = "n";
+	}
+?>
 <div>
 	<select name="<?php echo( ( isset( $name ) ? $name : "month" ) ); ?>" class="inp" id="<?php echo( ( isset( $id ) ? $id : "" ) ); ?>">
-		<option value="1">January</option>
-		<option value="2">February</option>
-		<option value="3">March</option>
-		<option value="4">April</option>
-		<option value="5">May</option>
-		<option value="6">June</option>
-		<option value="7">July</option>
-		<option value="8">August</option>
-		<option value="9">September</option>
-		<option value="10">October</option>
-		<option value="11">November</option>
-		<option value="12">December</option>
+		<?php for( $month = 1; $month <= 12; $month++ ): ?>
+		<option value="<?php echo( date( $value_format, mktime( 0, 0, 0, $month, 1, date( "Y" ) ) ) ); ?>"><?php echo( date( $display_format, mktime( 0, 0, 0, $month, 1, date( "Y" ) ) ) ); ?></option>
+		<?php endfor; ?>
 	</select>
 </div>

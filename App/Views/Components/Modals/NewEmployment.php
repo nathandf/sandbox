@@ -55,11 +55,28 @@
 				<div class="g g2 gg20 mt10">
 					<div>
 						<p class="label">Month</p>
-						<?php $this->loadComponent( "Inputs/MonthSelect" ); ?>
+						<?php
+							$this->loadComponent(
+								"Inputs/MonthSelect",
+								[
+									"name" => "start-month",
+									"display-format" => "F",
+									"value-format" => "n"
+								]
+							);
+						?>
 					</div>
 					<div>
 						<p class="label">Year</p>
-						<?php $this->loadComponent( "Inputs/YearSelect" ); ?>
+						<?php
+							$this->loadComponent(
+								"Inputs/YearSelect",
+								[
+									"name" => "start-year",
+									"range" => 80
+								]
+							);
+						?>
 					</div>
 				</div>
 			</div>
@@ -73,11 +90,28 @@
 				<div id="end-date-selects" class="g g2 gg20 mt10 mb20">
 					<div>
 						<p class="label">Month</p>
-						<?php $this->loadComponent( "Inputs/MonthSelect" ); ?>
+						<?php
+							$this->loadComponent(
+								"Inputs/MonthSelect",
+								[
+									"name" => "end-month",
+									"display-format" => "F",
+									"value-format" => "n"
+								]
+							);
+						?>
 					</div>
 					<div>
 						<p class="label">Year</p>
-						<?php $this->loadComponent( "Inputs/YearSelect" ); ?>
+						<?php
+							$this->loadComponent(
+								"Inputs/YearSelect",
+								[
+									"name" => "end-year",
+									"range" => 80
+								]
+							);
+						?>
 					</div>
 				</div>
 			</div>

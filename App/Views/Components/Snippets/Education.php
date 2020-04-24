@@ -1,8 +1,8 @@
 <div class="bg-white br5 bsh">
 	<div class="p20">
-		<p class="fw6 fs18 tc tt-u"><?=$education->institution?></p>
+		<p class="fw6 fs18 tc c-dark-gray tt-u"><?=$education->institution?></p>
 		<?php if( !$education->currently_attending ): ?>
-			<p class="fw6 fs16 tc"><?=$education->award?></p>
+			<p class="fs16 tc"><?=$education->award?></p>
 			<p class="c-muted tc"><?=$education->month_graduated?> <?=$education->year_graduated?></p>
 		<?php else: ?>
 			<p class="fw6 fs16 tc">&nbsp;</p>

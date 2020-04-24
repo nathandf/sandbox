@@ -32,7 +32,11 @@
 							<?php
 								$this->loadComponent(
 									"Inputs/MonthSelect",
-									[ "name" => "month-graduated" ]
+									[
+										"name" => "month-graduated",
+										"display-format" => "F",
+										"value-format" => "n"
+									]
 								);
 							?>
 						</div>
@@ -43,7 +47,7 @@
 									"Inputs/YearSelect",
 									[
 										"name" => "year-graduated",
-										"range" => 1
+										"range" => 80
 									]
 								);
 							?>

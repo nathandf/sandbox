@@ -73,14 +73,18 @@ class Education extends BaseController
             $education->institution = $this->request->post( "institution" );
             $education->city = $this->request->post( "city" );
             $education->state = $this->request->post( "state" );
-            $education->month_graduated = $this->request->post( "month-graduated" );
-            $education->year_graduated = $this->request->post( "year-graduated" );
             $education->currently_attending = $this->request->post( "currently-attending" );
+            
+            if ( !$education->currently_attending ) {
+                $education->month_graduated = $this->request->post( "month-graduated" );
+                $education->year_graduated = $this->request->post( "year-graduated" );
+                $education->award = $this->request->post( "award" );
+            }
 
             $education = $educationRepo->persist( $education );
 
             // Return the education entity if request is asynchronous
-            if ( !$this->request->isAjax() ) {
+            if ( $this->request->isAjax() ) {
                 $view->respond()
                 ->setSuccess( true )
                 ->setHttpStatusCode( 201 )
