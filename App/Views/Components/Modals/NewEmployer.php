@@ -17,7 +17,7 @@
 					</div>
 					<div>
 						<p class="label">State</p>
-						<input type="text" name="state" class="inp">
+						<input type="text" name="region" class="inp">
 					</div>
 				</div>
 			</div>

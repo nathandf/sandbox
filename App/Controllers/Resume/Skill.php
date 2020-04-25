@@ -22,12 +22,13 @@ class Skill extends BaseController
 
     public function indexAction()
     {
-        ppd( __CLASS__ . " index. Will require 'id'" );
+        ppd( __CLASS__ );
     }
 
-    public function create()
+    public function createAction()
     {
         $requestValidator = $this->load( "request-validator" );
+        $view = $this->view( "Resume/Skill/Create" );
 
         if (
             $this->request->is( "post" ) &&
@@ -41,13 +42,38 @@ class Skill extends BaseController
                         "required" => true,
                         "max" => 256
                     ]
-                ],
-                "new-accomplishment"
+                ]
             )
         ) {
-            ppd( $this->request->post() );
+            $skillRepo = $this->load( "skill-repository" );
+            $entityFactory = $this->load( "entity-factory" );
+
+            $skill = $entityFactory->build( "Skill" );
+
+            $skill->user_id = $this->user->id;
+            $skill->description = $this->request->post( "description" );
+
+            $skill = $skillRepo->persist( $skill );
+
+            if ( $this->request->isAjax() ) {
+                $view->respond()
+                    ->setHttpStatusCode( 201 )
+                    ->setSuccess( true )
+                    ->setData( [ $skill ] )
+                    ->send();
+            }
+
+            $view->back();
         }
 
-        ppd( "validation failed" );
+        if ( $this->request->isAjax() ) {               
+            $view->respond()
+                ->setHttpStatusCode( 422 )
+                ->setSuccess( false )
+                ->addMessage( $requestValidator->getError( 0 ) )
+                ->send();
+        }
+
+        $view->backWithData( [ "error" => $requestValidator->getError( 0 ) ] );
     }
 }

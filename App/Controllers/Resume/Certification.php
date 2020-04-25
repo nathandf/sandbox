@@ -25,9 +25,10 @@ class Certification extends BaseController
         ppd( __CLASS__ . " index. Will require 'id'" );
     }
 
-    public function create()
+    public function createAction()
     {
         $requestValidator = $this->load( "request-validator" );
+        $view = $this->view( "Resume/Certification/Create" );
 
         if (
             $this->request->is( "post" ) &&
@@ -38,23 +39,50 @@ class Certification extends BaseController
                         "required" => true
                     ],
                     "name" => [
-                        "required" => true,
-                        "max" => 256
+                        "required" => true
                     ],
                     "description" => [
-                        "max" => 512
-                    ],
-                    "issued-by" => [
                         "max" => 256
                     ],
-                    "date-awarded" => [
-                        "max" => 32
-                    ]
-                ],
-                "new-certification"
+                    "issued-by" => [
+                        "max" => 64
+                    ],
+                    "date-awarded" => []
+                ]
             )
         ) {
-            ppd( $this->request->post() );
+            $certificationRepo = $this->load( "certification-repository" );
+            $entityFactory = $this->load( "entity-factory" );
+
+            $certification = $entityFactory->build( "Certification" );
+
+            $certification->user_id = $this->user->id;
+            $certification->name = $this->request->post( "name" );
+            $certification->description = $this->request->post( "description" );
+            $certification->issued_by = $this->request->post( "issued-by" );
+            $certification->date_awarded = $this->request->post( "date-awarded" );
+
+            $certification = $certificationRepo->persist( $certification );
+
+            if ( $this->request->isAjax() ) {
+                $view->respond()
+                    ->setHttpStatusCode( 201 )
+                    ->setSuccess( true )
+                    ->setData( [ $certification ] )
+                    ->send();
+            }
+
+            $view->back();
         }
+
+        if ( $this->request->isAjax() ) {               
+            $view->respond()
+                ->setHttpStatusCode( 422 )
+                ->setSuccess( false )
+                ->addMessage( $requestValidator->getError( 0 ) )
+                ->send();
+        }
+
+        $view->backWithData( [ "error" => $requestValidator->getError( 0 ) ] );
     }
 }

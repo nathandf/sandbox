@@ -10,6 +10,6 @@ class Certification implements EntityInterface
 	public $user_id;
 	public $name;
 	public $description;
-	public $issed_by;
+	public $issued_by;
 	public $date_awarded;
 }

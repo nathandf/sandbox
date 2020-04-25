@@ -27,8 +27,9 @@ class Employer extends BaseController
         $view->render();
     }
 
-    public function create()
+    public function createAction()
     {
+        $view = $this->view( "Resume/Employer/Create" );
         $requestValidator = $this->load( "request-validator" );
 
         if (
@@ -39,30 +40,53 @@ class Employer extends BaseController
                     "csrf-token" => [
                         "required" => true
                     ],
-                    "employer_id" => [
-                    ],
                     "name" => [
-                        "max" => 256
+                        "required" => true,
+                        "max" => 128
                     ],
                     "city" => [
+                        "required" => true,
                         "max" => 256
                     ],
-                    "state" => [
+                    "region" => [
+                        "required" => true,
                         "max" => 256
-                    ],
-                    "country" => [],
-                    "position" => [],
-                    "currently-employed" => [],
-                    "start-month" => [],
-                    "start-year" => [],
-                    "end-month" => [],
-                    "end-year" => []
-                ],
-                "new-employment"
+                    ]
+                ]
             )
         ) {
-            ppd( $this->request->post() );
+            $employerRepo = $this->load( "employer-repository" );
+            $entityFactory = $this->load( "entity-factory" );
+
+            $employer = $entityFactory->build( "Employer" );
+
+            $employer->user_id = $this->user->id;
+            $employer->name = $this->request->post( "name" );
+            $employer->city = $this->request->post( "city" );
+            $employer->region = $this->request->post( "region" );
+
+            $employer = $employerRepo->persist( $employer );
+
+            if ( $this->request->isAjax() ) {
+                $view->respond()
+                    ->setSuccess( true )
+                    ->setHttpStatusCode( 201 )
+                    ->setData( [ $employer ] )
+                    ->send();
+            }
+
+            $view->back();
         }
+
+        if ( $this->request->isAjax() ) {
+            $view->respond()
+                ->setSuccess( false )
+                ->setHttpStatusCode( 422 )
+                ->addMessage( $requestValidator->getError( 0 ) )
+                ->send();
+        }
+
+        $view->backWithData( [ "error" => $requestValidator->getError( 0 ) ] );
     }
 
     public function deleteAction( $id = null )
