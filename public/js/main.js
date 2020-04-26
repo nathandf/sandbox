@@ -100,6 +100,10 @@ $( function() {
         $( "." + $( this ).data( "target_class" ) ).toggle();
     } );
 
+    $( ".--remove-id" ).on( "click", function () {
+        $( "#" + $( this ).data( "remove_id" ) ).remove();
+    } );
+
     $( ".--checked-hide-id" ).on( "click", function () {
         targetElements = $( "#" + $( this ).data( "target_id" ) );
         if ( $( this ).is( ":checked" ) ) {
@@ -140,5 +144,4 @@ $( function() {
     $( ".--format-e164-usa" ).text( function( i, text ) {
         return text.replace( /(\d{1,4})(\d{3})(\d{3})(\d{4})/, "+$1 ($2) $3-$4" );
     } );
-
 } );

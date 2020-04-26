@@ -40,6 +40,11 @@ abstract class DataMapper implements DataMapperInterface
         return $this->insert( $entity_key_values, true );
     }
 
+    public function persist( $entity )
+    {
+        return $this->save( $entity );
+    }
+
     public function insert( array $key_values, $return_object )
     {
         $columns = [];
@@ -73,7 +78,7 @@ abstract class DataMapper implements DataMapperInterface
         return $this->database->lastInsertId();
     }
 
-    public function get( array $cols_to_get, array $key_values, $return_type )
+    public function get( array $cols_to_get, array $key_values, $return_type, $remove_null_items = true )
     {
         $this->validateColsToGet( $cols_to_get );
         $this->validateReturnType( $return_type );
@@ -121,7 +126,7 @@ abstract class DataMapper implements DataMapperInterface
 
         while ( $response = $sql->fetch( \PDO::FETCH_ASSOC ) ) {
             $entity = $this->build( $this->formatEntityNameFromTable() );
-            $this->populate( $entity, $response );
+            $entity = $this->populate( $entity, $response, $remove_null_items );
             $entities[] = $entity;
         }
 
@@ -212,7 +217,7 @@ abstract class DataMapper implements DataMapperInterface
         return $this->entityFactory->build( $class_name );
     }
 
-    protected function populate( $entity, $data )
+    protected function populate( $entity, $data, bool $remove_null_items )
     {
         if ( !is_object( $entity ) ) {
             throw new \Exception( "Argument 'entity' must be an object" );
@@ -223,6 +228,17 @@ abstract class DataMapper implements DataMapperInterface
                 $entity->{$key} = $data[ $key ];
             }
         }
+
+        if ( $remove_null_items ) {
+            $props = get_object_vars( $entity );
+            foreach ( $props as $prop => $value ) {
+                if ( is_null( $value ) ) {
+                    unset( $entity->{$prop} );
+                }
+            }
+        }
+
+        return $entity;
     }
 
     public function setTable()
@@ -342,7 +358,7 @@ abstract class DataMapper implements DataMapperInterface
     }
 
     // Query execution
-    public function execute( $query, array $token_map, $return_format )
+    public function execute( $query, array $token_map, $return_format, $remove_null_items = true )
     {
         $sql = $this->database->prepare( $query );
 
@@ -367,7 +383,7 @@ abstract class DataMapper implements DataMapperInterface
             $entities = [];
             foreach ( $data as $response ) {
                 $entity = $this->build( $this->formatEntityNameFromTable() );
-                $this->populate( $entity, $response );
+                $entity = $this->populate( $entity, $response, $remove_null_items );
                 $entities[] = $entity;
             }
 

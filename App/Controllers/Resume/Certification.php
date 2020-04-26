@@ -47,7 +47,9 @@ class Certification extends BaseController
                     "issued-by" => [
                         "max" => 64
                     ],
-                    "date-awarded" => []
+                    "date-awarded" => [
+                        "required" => true
+                    ]
                 ]
             )
         ) {

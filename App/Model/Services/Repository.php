@@ -129,7 +129,7 @@ abstract class Repository implements RepositoryInterface
 
         $mapper = $this->getMapper();
 
-        return $mapper->save( $entity );
+        return $mapper->persist( $entity );
     }
 
     public function duplicateAndPersist( $entity )

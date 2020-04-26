@@ -5,6 +5,7 @@ namespace Core;
 class WebPage extends View
 {
     public TemplateInheritenceResolver $templateInheritenceResolver;
+    private int $loaded_component_count = 0;
 
     public function __construct()
     {
@@ -20,11 +21,18 @@ class WebPage extends View
 
         if ( file_exists( $component_file ) ) {
 
-            // Create variables 
+            // Iterate the loaded component count
+            $this->loaded_component_count++;
+
+            // Create variables for component from provided data
             foreach ( $data as $key => $value ) {
                 $key = str_replace( "-", "_", $key );
                 $$key = $value;
             }
+
+            // Create a unique id attribute value for each component create based
+            // on the current loaded component count
+            $componentId = $this->loaded_component_count . "-" . uniqid();
 
             include( $component_file );
 

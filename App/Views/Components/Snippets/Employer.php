@@ -1,6 +1,6 @@
 <div class="bg-white br5 bsh">
 	<div class="p20">
-		<p class="fw6 fs22"><?=$employer->name?></p>
+		<p class="fw6 c-dark-gray fs22"><?=$employer->name?></p>
 	</div>
 	<hr>
 	<div class="p10">
