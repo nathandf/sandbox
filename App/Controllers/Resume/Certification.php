@@ -87,4 +87,70 @@ class Certification extends BaseController
 
         $view->backWithData( [ "error" => $requestValidator->getError( 0 ) ] );
     }
+
+    public function deleteAction( $id = null )
+    {
+        if ( is_null( $id ) ) {
+            $view = $this->view( "Resume/Certification/Delete" );
+            $view->renderTemplate( "Errors/404.php" );
+        }
+
+        $view = $this->view( "Resume/Certification/Delete" );
+        $requestValidator = $this->load( "request-validator" );
+
+        if (
+            $this->request->is( "post" ) &&
+            $requestValidator->validate(
+                $this->request,
+                [
+                    "csrf-token" => [
+                        "required" => true
+                    ]
+                ]
+            )
+        ) {
+            $certificationRepo = $this->load( "certification-repository" ); 
+
+            $certification = $certificationRepo->select( "id" )
+                ->whereColumnValue( "id", "=", $id )
+                ->and()->columnValue( "user_id", "=", $this->user->id )
+                ->execute();
+
+
+            if ( is_null( $certification ) ) {
+                if ( $this->request->isAjax() ) {
+                    $view->respond()
+                        ->setSuccess( false )
+                        ->setHttpStatusCode( 404 )
+                        ->addMessage( "Resource not found" )
+                        ->send();
+                }
+
+                $view->backWithData( [ "error" => "Resource not found" ] );
+            }
+
+            $certificationRepo->deleteEntity( $certification );
+
+            if ( $this->request->isAjax() ) {
+                $view->respond()
+                    ->setSuccess( true )
+                    ->setHttpStatusCode( 204 )
+                    ->addMessage( "Resource deleted successfully" )
+                    ->send();
+            }
+
+            $view->back();
+        }
+
+        // Respond with json if request fails and is ajax
+        if ( $this->request->isAjax() ) {
+            $view->respond()
+                ->setSuccess( false )
+                ->setHttpStatusCode( 422 )
+                ->addMessage( $requestValidator->getError( 0 ) )
+                ->send();
+        }
+
+        $view->backWithData( [ "error" => $requestValidator->getError( 0 ) ], true );
+    }
 }

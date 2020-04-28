@@ -20,14 +20,6 @@ class Request
 			}
         }
 
-        if ( isset( $_SESSION[ "previous" ] ) === false ) {
-        	$_SESSION[ "previous" ] = $_SERVER[ "REQUEST_URI" ];
-        	$_SESSION[ "current" ] = $_SERVER[ "REQUEST_URI" ];
-        } else {
-        	$_SESSION[ "previous" ] = $_SESSION[ "current" ];
-        	$_SESSION[ "current" ] = $_SERVER[ "REQUEST_URI" ];
-        }
-		
 		$this->csrf_token = $this->session( "csrf-token" );
     }
 

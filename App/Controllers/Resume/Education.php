@@ -96,7 +96,7 @@ class Education extends BaseController
             $view->back();
         }
 
-         // Return the education entity if request is asynchronous
+        // Respond with json if request fails and is ajax
         if ( $this->request->isAjax() ) {
             $view->respond()
                 ->setSuccess( false )
@@ -151,11 +151,7 @@ class Education extends BaseController
 
             $educationRepo->deleteEntity( $education );
 
-            /**
-             * @todo Figure this error out below...
-             * 'Form submission canceled because the form is not connected'
-             */
-            if ( !$this->request->isAjax() ) {
+            if ( $this->request->isAjax() ) {
                 $view->respond()
                     ->setSuccess( true )
                     ->setHttpStatusCode( 204 )

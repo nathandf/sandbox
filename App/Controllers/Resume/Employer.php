@@ -91,17 +91,67 @@ class Employer extends BaseController
 
     public function deleteAction( $id = null )
     {
-        $view = $this->view( "Resume/Employer/Delete" );
-
         if ( is_null( $id ) ) {
-            $view->redirect( HOME . "resume/employers/" );
+            $view = $this->view( "Resume/Employer/Delete" );
+            $view->renderTemplate( "Errors/404.php" );
         }
 
-        $employerRepo = $this->load( "employer-repository" );
+        $view = $this->view( "Resume/Employer/Delete" );
+        $requestValidator = $this->load( "request-validator" );
 
-        $employerRepo->delete()
-            ->whereColumnValue( "user_id", "=", $this->user->id )
-            ->and()->columnValue( "id", "=", $id )
-            ->execute();
+        if (
+            $this->request->is( "post" ) &&
+            $requestValidator->validate(
+                $this->request,
+                [
+                    "csrf-token" => [
+                        "required" => true
+                    ]
+                ]
+            )
+        ) {
+            $employerRepo = $this->load( "employer-repository" ); 
+
+            $employer = $employerRepo->select( "id" )
+                ->whereColumnValue( "id", "=", $id )
+                ->and()->columnValue( "user_id", "=", $this->user->id )
+                ->execute();
+
+
+            if ( is_null( $employer ) ) {
+                if ( $this->request->isAjax() ) {
+                    $view->respond()
+                        ->setSuccess( false )
+                        ->setHttpStatusCode( 404 )
+                        ->addMessage( "Resource not found" )
+                        ->send();
+                }
+
+                $view->backWithData( [ "error" => "Resource not found" ] );
+            }
+
+            $employerRepo->deleteEntity( $employer );
+
+            if ( $this->request->isAjax() ) {
+                $view->respond()
+                    ->setSuccess( true )
+                    ->setHttpStatusCode( 204 )
+                    ->addMessage( "Resource deleted successfully" )
+                    ->send();
+            }
+
+            $view->back();
+        }
+
+        // Respond with json if request fails and is ajax
+        if ( $this->request->isAjax() ) {
+            $view->respond()
+                ->setSuccess( false )
+                ->setHttpStatusCode( 422 )
+                ->addMessage( $requestValidator->getError( 0 ) )
+                ->send();
+        }
+
+        $view->backWithData( [ "error" => $requestValidator->getError( 0 ) ], true );
     }
 }

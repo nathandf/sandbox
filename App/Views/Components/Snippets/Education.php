@@ -13,7 +13,7 @@
 	<div class="p10">
 		<form id="form-<?=$componentId?>"action="<?=HOME?>resume/education/<?=$education->id?>/delete" method="post">
 			<input type="hidden" name="csrf-token" value="{$csrf_token}">
-			<button type="submit" class="--confirm --remove-id c-dark-gray fr text-button" data-remove_id="<?=$componentId?>" data-confirm_message="Delete education history for '<?=$education->institution?>'?"><i class="fas fa-trash"></i></button>
+			<button type="submit" class="--confirm c-dark-gray fr text-button" data-confirm_message="Delete education history for '<?=$education->institution?>'?"><i class="fas fa-trash"></i></button>
 		</form>
 		<div class="clear"></div>
 	</div>

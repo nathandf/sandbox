@@ -76,4 +76,70 @@ class Skill extends BaseController
 
         $view->backWithData( [ "error" => $requestValidator->getError( 0 ) ] );
     }
+
+    public function deleteAction( $id = null )
+    {
+        if ( is_null( $id ) ) {
+            $view = $this->view( "Resume/Skill/Delete" );
+            $view->renderTemplate( "Errors/404.php" );
+        }
+
+        $view = $this->view( "Resume/Skill/Delete" );
+        $requestValidator = $this->load( "request-validator" );
+
+        if (
+            $this->request->is( "post" ) &&
+            $requestValidator->validate(
+                $this->request,
+                [
+                    "csrf-token" => [
+                        "required" => true
+                    ]
+                ]
+            )
+        ) {
+            $skillRepo = $this->load( "skill-repository" ); 
+
+            $skill = $skillRepo->select( "id" )
+                ->whereColumnValue( "id", "=", $id )
+                ->and()->columnValue( "user_id", "=", $this->user->id )
+                ->execute();
+
+
+            if ( is_null( $skill ) ) {
+                if ( $this->request->isAjax() ) {
+                    $view->respond()
+                        ->setSuccess( false )
+                        ->setHttpStatusCode( 404 )
+                        ->addMessage( "Resource not found" )
+                        ->send();
+                }
+
+                $view->backWithData( [ "error" => "Resource not found" ] );
+            }
+
+            $skillRepo->deleteEntity( $skill );
+
+            if ( $this->request->isAjax() ) {
+                $view->respond()
+                    ->setSuccess( true )
+                    ->setHttpStatusCode( 204 )
+                    ->addMessage( "Resource deleted successfully" )
+                    ->send();
+            }
+
+            $view->back();
+        }
+
+        // Respond with json if request fails and is ajax
+        if ( $this->request->isAjax() ) {
+            $view->respond()
+                ->setSuccess( false )
+                ->setHttpStatusCode( 422 )
+                ->addMessage( $requestValidator->getError( 0 ) )
+                ->send();
+        }
+
+        $view->backWithData( [ "error" => $requestValidator->getError( 0 ) ], true );
+    }
 }

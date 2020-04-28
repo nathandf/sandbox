@@ -4,7 +4,10 @@
 	</div>
 	<hr>
 	<div class="p10">
-		<button class="c-dark-gray fr text-button"><i class="fas fa-ellipsis-h"></i></button>
+		<form id="form-<?=$componentId?>"action="<?=HOME?>resume/employer/<?=$employer->id?>/delete" method="post">
+			<input type="hidden" name="csrf-token" value="{$csrf_token}">
+			<button type="submit" class="--confirm c-dark-gray fr text-button" data-confirm_message="Delete this employer?"><i class="fas fa-trash"></i></button>
+		</form>
 		<div class="clear"></div>
 	</div>
 </div>
