@@ -4,7 +4,7 @@
 		<div class="clear"></div>
 		<h3 class="tc">Education</h2>
 		<form action="<?=HOME?>resume/education/create" method="post">
-			<input type="hidden" name="csrf-token" value="{$csrf_token}">
+			<input type="hidden" name="csrf-token" value="<?=$csrf_token?>">
 			<div class="p20 pb40">
 				<div>
 					<p class="label">Institution</p>

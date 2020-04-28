@@ -4,7 +4,7 @@
 		<div class="clear"></div>
 		<h3 class="tc">Add a new employer</h2>
 		<form action="<?=HOME?>resume/employer/create" method="post">
-			<input type="hidden" name="csrf-token" value="{$csrf_token}">
+			<input type="hidden" name="csrf-token" value="<?=$csrf_token?>">
 			<div class="p20">
 				<div>
 					<p class="label">Company Name</p>

@@ -4,7 +4,7 @@
 		<div class="clear"></div>
 		<h3 class="tc">Certification</h2>
 			<form action="<?=HOME?>resume/certification/create" method="post">
-			<input type="hidden" name="csrf-token" value="{$csrf_token}">
+			<input type="hidden" name="csrf-token" value="<?=$csrf_token?>">
 			<div class="p20 pb40">
 				<p class="label">Certification name</p>
 				<input type="text" name="name" class="inp">

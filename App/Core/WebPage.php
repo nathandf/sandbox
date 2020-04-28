@@ -34,6 +34,9 @@ class WebPage extends View
             // on the current loaded component count
             $componentId = $this->loaded_component_count . "-" . uniqid();
 
+            // Add the csrf_token token tho the variables
+            $csrf_token = $this->getCSRFToken();
+
             include( $component_file );
 
             return;

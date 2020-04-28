@@ -137,7 +137,7 @@ class View
         return $this;
     }
 
-    public function getCSRFToken( $csrf_token ) : ?string
+    public function getCSRFToken() : ?string
     {
         return $this->csrf_token;
     }

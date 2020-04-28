@@ -4,7 +4,7 @@
 		<div class="clear"></div>
 		<h3 class="tc">Build your employment history</h2>
 		<form action="<?=HOME?>resume/employment/create" method="post">
-			<input type="hidden" name="csrf-token" value="{$csrf_token}">
+			<input type="hidden" name="csrf-token" value="<?=$csrf_token?>">
 			<div class="p20">
 				<?php
 					$display_class = null;

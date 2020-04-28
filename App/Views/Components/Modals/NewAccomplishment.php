@@ -4,7 +4,7 @@
 		<div class="clear"></div>
 		<h3 class="tc">Accomplishment</h2>
 			<form action="<?=HOME?>resume/accomplishment/create" method="post">
-			<input type="hidden" name="csrf-token" value="{$csrf_token}">
+			<input type="hidden" name="csrf-token" value="<?=$csrf_token?>">
 			<div class="p20 pb40">
 				<textarea name="description" class="textarea"></textarea>
 			</div>
