@@ -20,9 +20,46 @@ class Employer extends BaseController
         $this->user = $userAuthenticator->getAuthenticatedUser();
     }
     
-    public function indexAction()
+    public function indexAction( $id = null )
     {
+        if ( is_null( $id ) ) {
+            if ( $this->request->isAjax() ) {
+                $view = $this->view( "Errors/Error" );
+                $view->respond()
+                    ->setSuccess( false )
+                    ->setHttpStatusCode( 400 )
+                    ->addMessage( "Resource id cannot be null" )
+                    ->send();
+            }
+
+            $view = $this->view( "Errors/Error" );
+            $view->renderHttpErrorCode( 404 );
+        }
+
         $view = $this->view( "Resume/Employer/Index" );
+
+        $employerRepo = $this->load( "employer-repository" );
+        $employer = $employerRepo->select( "*" )
+            ->whereColumnValue( "id", "=", $id )
+            ->and()->columnValue( "user_id", "=", $this->user->id )
+            ->execute( "entity" );
+        
+        $view->assign( "employer", $employer );
+
+        $positionRepo = $this->load( "position-repository" );
+        $positionList = $positionRepo->select( "*" )
+            ->whereColumnValue( "user_id", "=", $this->user->id )
+            ->and()->columnValue( "employer_id", "=", $employer->id )
+            ->execute();
+
+        $dutyRepo = $this->load( "duty-repository" );
+        foreach ( $positionList as $position ) {
+            $position->dutyList = $dutyRepo->select( "*" )
+                ->whereColumnValue( "position_id", "=", $position->id )
+                ->execute();
+        }
+
+        $view->assign( "positionList", $positionList );
 
         $view->render();
     }
@@ -55,7 +92,6 @@ class Employer extends BaseController
                 ]
             )
         ) {
-            $employerRepo = $this->load( "employer-repository" );
             $entityFactory = $this->load( "entity-factory" );
 
             $employer = $entityFactory->build( "Employer" );
@@ -65,6 +101,7 @@ class Employer extends BaseController
             $employer->city = $this->request->post( "city" );
             $employer->region = $this->request->post( "region" );
 
+            $employerRepo = $this->load( "employer-repository" );
             $employer = $employerRepo->persist( $employer );
 
             if ( $this->request->isAjax() ) {

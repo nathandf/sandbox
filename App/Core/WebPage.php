@@ -47,6 +47,12 @@ class WebPage extends View
 
     public function renderTemplate( $filename, $data = [] )
     {
+        // Create variables for template from provided data
+        foreach ( $data as $key => $value ) {
+            $key = str_replace( "-", "_", $key );
+            $$key = $value;
+        }
+
         if ( $this->templateInheritenceResolver->buildTemplate( $filename ) ) {
 
             ob_start();

@@ -4,7 +4,7 @@ namespace Controllers\Resume;
 
 use Core\BaseController;
 
-class Education extends BaseController
+class Position extends BaseController
 {
     private $user;
 
@@ -22,21 +22,48 @@ class Education extends BaseController
     
     public function indexAction()
     {
-        $view = $this->view( "Resume/Education/Index" );
+        $view = $this->view( "Resume/Position/Index" );
         
-        $educationRepo = $this->load( "education-repository" );
-        $educationList = $educationRepo->select( "*" )
+        $positionRepo = $this->load( "position-repository" );
+        $positions = $positionRepo->select( "*" )
             ->whereColumnValue( "user_id", "=", $this->user->id )
             ->execute();
 
-        $view->assign( "educationList", $educationList );
+        $positionList = [];
+
+        // Get all employers and duty entities related to each position
+        $employerRepo = $this->load( "employer-repository" );
+        $employerList = $employerRepo->select( "*" )
+            ->whereColumnValue( "user_id", "=", $this->user->id )
+            ->execute();
+
+        $view->assign( "employerList", $employerList );
+
+        $dutyRepo = $this->load( "duty-repository" );
+        
+        foreach ( $positions as $position ) {
+
+            // Employer
+            $position->employer = $employerRepo->select( "*" )
+                ->whereColumnValue( "id", "=", $position->employer_id )
+                ->execute( "entity" );
+
+            // Duties
+            $position->dutyList = $dutyRepo->select( "*" )
+                ->whereColumnValue( "position_id", "=", $position->id )
+                ->execute();
+
+            $positionList[] = $position;
+        }
+
+        $view->assign( "positionList", $positionList );
 
         $view->render();
     }
 
     public function createAction()
     {
-        $view = $this->view( "Resume/Education/Create" );
+        $view = $this->view( "Resume/Position/Create" );
         $requestValidator = $this->load( "request-validator" );
 
         if (
@@ -47,19 +74,19 @@ class Education extends BaseController
                     "csrf-token" => [
                         "required" => true
                     ],
-                    "institution" => [
+                    "name" => [
                         "required" => true,
                         "max" => 256
                     ],
-                    "city" => [
+                    "start-month" => [
                         "required" => true,
                         "max" => 256
                     ],
-                    "state" => [
+                    "end-month" => [
                         "required" => true,
                         "max" => 256
                     ],
-                    "currently-attending" => [],
+                    "currently-employed" => [],
                     "month-graduated" => [],
                     "year-graduated" => []
                 ]
@@ -67,28 +94,40 @@ class Education extends BaseController
         ) {
             $entityFactory = $this->load( "entity-factory" );
 
-            $education = $entityFactory->build( "Education" );
-            $education->user_id = $this->user->id;
-            $education->institution = $this->request->post( "institution" );
-            $education->city = $this->request->post( "city" );
-            $education->state = $this->request->post( "state" );
-            $education->currently_attending = $this->request->post( "currently-attending" );
+            $position = $entityFactory->build( "Position" );
+            $position->user_id = $this->user->id;
+            $position->name = $this->request->post( "name" );
+            $position->start_month = $this->request->post( "start-month" );
+            $position->start_year = $this->request->post( "start-year" );
+            $position->currently_employed = $this->request->post( "currently-employed" );
             
-            if ( !$education->currently_attending ) {
-                $education->month_graduated = $this->request->post( "month-graduated" );
-                $education->year_graduated = $this->request->post( "year-graduated" );
-                $education->award = $this->request->post( "award" );
+            if ( $position->currently_employed != "" ) {
+                if ( $position->end_month == "" || $position->end_year == "" ) {
+                    $error_message = "End month and year must be set if not currently employed in this position";
+                    if ( $this->request->isAjax() ) {
+                        $view->respond()
+                            ->setSuccess( false )
+                            ->setHttpStatusCode( 422 )
+                            ->addMessage( $error_message )
+                            ->send();
+                    }
+
+                    $view->backWithData( [ "error" => $error_message );
+                }
+
+                $position->end_month = $this->request->post( "end-month" );
+                $position->end_year = $this->request->post( "end-year" );
             }
 
-            $educationRepo = $this->load( "education-repository" );
-            $education = $educationRepo->persist( $education );
+            $positionRepo = $this->load( "position-repository" );
+            $position = $positionRepo->persist( $position );
 
-            // Return the education entity if request is asynchronous
+            // Return the position entity if request is asynchronous
             if ( $this->request->isAjax() ) {
                 $view->respond()
                 ->setSuccess( true )
                 ->setHttpStatusCode( 201 )
-                ->setData( [ $education ] )
+                ->setData( [ $position ] )
                 ->send();
             }
 
@@ -111,11 +150,11 @@ class Education extends BaseController
     public function deleteAction( $id = null )
     {
         if ( is_null( $id ) ) {
-            $view = $this->view( "Resume/Education/Delete" );
+            $view = $this->view( "Resume/Position/Delete" );
             $view->renderTemplate( "Errors/404.php" );
         }
 
-        $view = $this->view( "Resume/Education/Delete" );
+        $view = $this->view( "Resume/Position/Delete" );
         $requestValidator = $this->load( "request-validator" );
 
         if (
@@ -129,15 +168,15 @@ class Education extends BaseController
                 ]
             )
         ) {
-            $educationRepo = $this->load( "education-repository" ); 
+            $positionRepo = $this->load( "position-repository" ); 
 
-            $education = $educationRepo->select( "id" )
+            $position = $positionRepo->select( "id" )
                 ->whereColumnValue( "id", "=", $id )
                 ->and()->columnValue( "user_id", "=", $this->user->id )
                 ->execute();
 
 
-            if ( is_null( $education ) ) {
+            if ( is_null( $position ) ) {
                 if ( $this->request->isAjax() ) {
                     $view->respond()
                         ->setSuccess( false )
@@ -149,7 +188,7 @@ class Education extends BaseController
                 $view->backWithData( [ "error" => "Resource not found" ] );
             }
 
-            $educationRepo->deleteEntity( $education );
+            $positionRepo->deleteEntity( $position );
 
             if ( $this->request->isAjax() ) {
                 $view->respond()
@@ -162,7 +201,7 @@ class Education extends BaseController
             $view->back();
         }
 
-        // Return the education entity if request is asynchronous
+        // Return the position entity if request is asynchronous
         if ( $this->request->isAjax() ) {
             $view->respond()
                 ->setSuccess( false )

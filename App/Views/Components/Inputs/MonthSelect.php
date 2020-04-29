@@ -18,6 +18,9 @@
 	}
 ?>
 <div>
+	<?php if ( isset( $label ) ): ?>
+	<p class="label"><?=$label?></p>
+	<?php endif; ?>
 	<select name="<?php echo( ( isset( $name ) ? $name : "month" ) ); ?>" class="inp" id="<?php echo( ( isset( $id ) ? $id : "" ) ); ?>">
 		<?php for( $month = 1; $month <= 12; $month++ ): ?>
 		<option value="<?php echo( date( $value_format, mktime( 0, 0, 0, $month, 1, date( "Y" ) ) ) ); ?>"><?php echo( date( $display_format, mktime( 0, 0, 0, $month, 1, date( "Y" ) ) ) ); ?></option>

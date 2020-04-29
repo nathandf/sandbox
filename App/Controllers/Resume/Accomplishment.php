@@ -45,7 +45,6 @@ class Accomplishment extends BaseController
                 ]
             )
         ) {
-            $accomplishmentRepo = $this->load( "accomplishment-repository" );
             $entityFactory = $this->load( "entity-factory" );
 
             $accomplishment = $entityFactory->build( "Accomplishment" );
@@ -53,6 +52,7 @@ class Accomplishment extends BaseController
             $accomplishment->user_id = $this->user->id;
             $accomplishment->description = $this->request->post( "description" );
 
+            $accomplishmentRepo = $this->load( "accomplishment-repository" );
             $accomplishment = $accomplishmentRepo->persist( $accomplishment );
 
             if ( $this->request->isAjax() ) {

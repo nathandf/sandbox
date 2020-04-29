@@ -45,7 +45,6 @@ class Skill extends BaseController
                 ]
             )
         ) {
-            $skillRepo = $this->load( "skill-repository" );
             $entityFactory = $this->load( "entity-factory" );
 
             $skill = $entityFactory->build( "Skill" );
@@ -53,6 +52,7 @@ class Skill extends BaseController
             $skill->user_id = $this->user->id;
             $skill->description = $this->request->post( "description" );
 
+            $skillRepo = $this->load( "skill-repository" );
             $skill = $skillRepo->persist( $skill );
 
             if ( $this->request->isAjax() ) {

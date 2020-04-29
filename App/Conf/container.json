@@ -77,7 +77,7 @@
                 "dao",
                 "entity-factory"
             ],
-            "employment-repository": [
+            "position-repository": [
                 "dao",
                 "entity-factory"
             ],

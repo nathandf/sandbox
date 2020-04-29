@@ -53,7 +53,6 @@ class Certification extends BaseController
                 ]
             )
         ) {
-            $certificationRepo = $this->load( "certification-repository" );
             $entityFactory = $this->load( "entity-factory" );
 
             $certification = $entityFactory->build( "Certification" );
@@ -64,6 +63,7 @@ class Certification extends BaseController
             $certification->issued_by = $this->request->post( "issued-by" );
             $certification->date_awarded = $this->request->post( "date-awarded" );
 
+            $certificationRepo = $this->load( "certification-repository" );
             $certification = $certificationRepo->persist( $certification );
 
             if ( $this->request->isAjax() ) {

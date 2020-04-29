@@ -8,6 +8,9 @@ class Index extends WebPage
 {
 	public function render()
 	{
-		return $this->renderTemplate( "Resume/Employer/Index.php" );
+		return $this->renderTemplate(
+			"Resume/Employer/Index.php",
+			[ "employer" => $this->getData( "employer" ) ]
+		);
 	}
 }

@@ -1,4 +1,7 @@
 <div>
+	<?php if ( isset( $label ) ): ?>
+	<p class="label"><?=$label?></p>
+	<?php endif; ?>
 	<select name="<?php echo( ( isset( $name ) ? $name : "year" ) ); ?>" class="inp" id="<?php echo( ( isset( $id ) ? $id : "" ) ); ?>">
 		<?php
 			$current_year = date( "Y" );
