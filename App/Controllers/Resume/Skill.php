@@ -56,7 +56,7 @@ class Skill extends BaseController
             $skill = $skillRepo->persist( $skill );
 
             if ( $this->request->isAjax() ) {
-                $view->respond()
+                $view->response()
                     ->setHttpStatusCode( 201 )
                     ->setSuccess( true )
                     ->setData( [ $skill ] )
@@ -67,7 +67,7 @@ class Skill extends BaseController
         }
 
         if ( $this->request->isAjax() ) {               
-            $view->respond()
+            $view->response()
                 ->setHttpStatusCode( 422 )
                 ->setSuccess( false )
                 ->addMessage( $requestValidator->getError( 0 ) )
@@ -108,7 +108,7 @@ class Skill extends BaseController
 
             if ( is_null( $skill ) ) {
                 if ( $this->request->isAjax() ) {
-                    $view->respond()
+                    $view->response()
                         ->setSuccess( false )
                         ->setHttpStatusCode( 404 )
                         ->addMessage( "Resource not found" )
@@ -121,7 +121,7 @@ class Skill extends BaseController
             $skillRepo->deleteEntity( $skill );
 
             if ( $this->request->isAjax() ) {
-                $view->respond()
+                $view->response()
                     ->setSuccess( true )
                     ->setHttpStatusCode( 204 )
                     ->addMessage( "Resource deleted successfully" )
@@ -131,9 +131,9 @@ class Skill extends BaseController
             $view->back();
         }
 
-        // Respond with json if request fails and is ajax
+        // response with json if request fails and is ajax
         if ( $this->request->isAjax() ) {
-            $view->respond()
+            $view->response()
                 ->setSuccess( false )
                 ->setHttpStatusCode( 422 )
                 ->addMessage( $requestValidator->getError( 0 ) )

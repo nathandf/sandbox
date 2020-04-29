@@ -85,7 +85,7 @@ class Education extends BaseController
 
             // Return the education entity if request is asynchronous
             if ( $this->request->isAjax() ) {
-                $view->respond()
+                $view->response()
                 ->setSuccess( true )
                 ->setHttpStatusCode( 201 )
                 ->setData( [ $education ] )
@@ -96,9 +96,9 @@ class Education extends BaseController
             $view->back();
         }
 
-        // Respond with json if request fails and is ajax
+        // response with json if request fails and is ajax
         if ( $this->request->isAjax() ) {
-            $view->respond()
+            $view->response()
                 ->setSuccess( false )
                 ->setHttpStatusCode( 422 )
                 ->addMessage( $requestValidator->getError( 0 ) )
@@ -139,7 +139,7 @@ class Education extends BaseController
 
             if ( is_null( $education ) ) {
                 if ( $this->request->isAjax() ) {
-                    $view->respond()
+                    $view->response()
                         ->setSuccess( false )
                         ->setHttpStatusCode( 404 )
                         ->addMessage( "Resource not found" )
@@ -152,7 +152,7 @@ class Education extends BaseController
             $educationRepo->deleteEntity( $education );
 
             if ( $this->request->isAjax() ) {
-                $view->respond()
+                $view->response()
                     ->setSuccess( true )
                     ->setHttpStatusCode( 204 )
                     ->addMessage( "Resource deleted successfully" )
@@ -164,7 +164,7 @@ class Education extends BaseController
 
         // Return the education entity if request is asynchronous
         if ( $this->request->isAjax() ) {
-            $view->respond()
+            $view->response()
                 ->setSuccess( false )
                 ->setHttpStatusCode( 422 )
                 ->addMessage( $requestValidator->getError( 0 ) )

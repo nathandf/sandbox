@@ -89,4 +89,44 @@ class Response
 		echo( json_encode( $this->responseData, JSON_PRETTY_PRINT ) );
 		exit;
 	}
+
+	public function respondWithError( $code, $additional_message = null )
+	{
+		$message = "";
+		switch ( $code ) {
+			case 400:
+				$message = "Bad Request";
+				break;
+
+			case 403:
+				$message = "Access Forbidden";
+				break;
+
+			case 404:
+				$message = "Resource could not be found";
+				break;
+
+			case 422:
+				$message = "Data required to retrieve this resource is either missing or incorrect";
+				break;
+			
+			case 500:
+				$message = "Server Error";
+				break;
+
+			default:
+				$message = "An unknown error has occured";
+				break;
+		}
+
+		$this->setHttpStatusCode( $code );
+		$this->setSuccess( false );
+
+		$this->addMessage( $message );
+		if ( !is_null( $additional_message ) ) {
+			$this->addMessage( $additional_message );
+		}
+
+		$this->send();
+	}
 }

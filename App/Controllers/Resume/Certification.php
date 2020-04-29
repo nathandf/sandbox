@@ -67,7 +67,7 @@ class Certification extends BaseController
             $certification = $certificationRepo->persist( $certification );
 
             if ( $this->request->isAjax() ) {
-                $view->respond()
+                $view->response()
                     ->setHttpStatusCode( 201 )
                     ->setSuccess( true )
                     ->setData( [ $certification ] )
@@ -78,7 +78,7 @@ class Certification extends BaseController
         }
 
         if ( $this->request->isAjax() ) {               
-            $view->respond()
+            $view->response()
                 ->setHttpStatusCode( 422 )
                 ->setSuccess( false )
                 ->addMessage( $requestValidator->getError( 0 ) )
@@ -119,7 +119,7 @@ class Certification extends BaseController
 
             if ( is_null( $certification ) ) {
                 if ( $this->request->isAjax() ) {
-                    $view->respond()
+                    $view->response()
                         ->setSuccess( false )
                         ->setHttpStatusCode( 404 )
                         ->addMessage( "Resource not found" )
@@ -132,7 +132,7 @@ class Certification extends BaseController
             $certificationRepo->deleteEntity( $certification );
 
             if ( $this->request->isAjax() ) {
-                $view->respond()
+                $view->response()
                     ->setSuccess( true )
                     ->setHttpStatusCode( 204 )
                     ->addMessage( "Resource deleted successfully" )
@@ -142,9 +142,9 @@ class Certification extends BaseController
             $view->back();
         }
 
-        // Respond with json if request fails and is ajax
+        // response with json if request fails and is ajax
         if ( $this->request->isAjax() ) {
-            $view->respond()
+            $view->response()
                 ->setSuccess( false )
                 ->setHttpStatusCode( 422 )
                 ->addMessage( $requestValidator->getError( 0 ) )

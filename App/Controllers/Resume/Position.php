@@ -96,6 +96,7 @@ class Position extends BaseController
 
             $position = $entityFactory->build( "Position" );
             $position->user_id = $this->user->id;
+            $position->employer_id = $this->request->post( "employer-id" );
             $position->name = $this->request->post( "name" );
             $position->start_month = $this->request->post( "start-month" );
             $position->start_year = $this->request->post( "start-year" );
@@ -105,14 +106,14 @@ class Position extends BaseController
                 if ( $position->end_month == "" || $position->end_year == "" ) {
                     $error_message = "End month and year must be set if not currently employed in this position";
                     if ( $this->request->isAjax() ) {
-                        $view->respond()
+                        $view->response()
                             ->setSuccess( false )
                             ->setHttpStatusCode( 422 )
                             ->addMessage( $error_message )
                             ->send();
                     }
 
-                    $view->backWithData( [ "error" => $error_message );
+                    $view->backWithData( [ "error" => $error_message ] );
                 }
 
                 $position->end_month = $this->request->post( "end-month" );
@@ -124,7 +125,7 @@ class Position extends BaseController
 
             // Return the position entity if request is asynchronous
             if ( $this->request->isAjax() ) {
-                $view->respond()
+                $view->response()
                 ->setSuccess( true )
                 ->setHttpStatusCode( 201 )
                 ->setData( [ $position ] )
@@ -135,9 +136,9 @@ class Position extends BaseController
             $view->back();
         }
 
-        // Respond with json if request fails and is ajax
+        // response with json if request fails and is ajax
         if ( $this->request->isAjax() ) {
-            $view->respond()
+            $view->response()
                 ->setSuccess( false )
                 ->setHttpStatusCode( 422 )
                 ->addMessage( $requestValidator->getError( 0 ) )
@@ -178,7 +179,7 @@ class Position extends BaseController
 
             if ( is_null( $position ) ) {
                 if ( $this->request->isAjax() ) {
-                    $view->respond()
+                    $view->response()
                         ->setSuccess( false )
                         ->setHttpStatusCode( 404 )
                         ->addMessage( "Resource not found" )
@@ -191,7 +192,7 @@ class Position extends BaseController
             $positionRepo->deleteEntity( $position );
 
             if ( $this->request->isAjax() ) {
-                $view->respond()
+                $view->response()
                     ->setSuccess( true )
                     ->setHttpStatusCode( 204 )
                     ->addMessage( "Resource deleted successfully" )
@@ -203,7 +204,7 @@ class Position extends BaseController
 
         // Return the position entity if request is asynchronous
         if ( $this->request->isAjax() ) {
-            $view->respond()
+            $view->response()
                 ->setSuccess( false )
                 ->setHttpStatusCode( 422 )
                 ->addMessage( $requestValidator->getError( 0 ) )

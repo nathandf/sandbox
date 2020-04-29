@@ -1,3 +1,6 @@
+<?php if ( isset( $employer ) === false ): ?>
+<?php $this->renderErrorMessage( "Cannot load new position modal without employer data" ); ?>
+<?php else: ?>
 <div id="new-position-modal" class="dn bg-black-60 pf ofy-a brtl w100 h100 p20 --toggle-self">
 	<div class="pr --modal-content w-max-xxmed center bg-white bsh br5 mb20">
 		<div class="--toggle-id fr fs22 fw6 c-dark-gray mr10 p10 cp" data-target_id="new-position-modal">x</div>
@@ -5,6 +8,7 @@
 		<h3 class="tc">Add a new position</h2>
 		<form action="<?=HOME?>resume/position/create" method="post">
 			<input type="hidden" name="csrf-token" value="<?=$csrf_token?>">
+			<input type="hidden" name="employer-id" value="<?=$employer->id?>">
 			<div class="p20">
 				<div>
 					<p class="label">Name</p>
@@ -81,3 +85,4 @@
 		</form>
 	</div>
 </div>
+<?php endif; ?>

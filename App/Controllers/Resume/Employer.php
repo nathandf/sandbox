@@ -25,7 +25,7 @@ class Employer extends BaseController
         if ( is_null( $id ) ) {
             if ( $this->request->isAjax() ) {
                 $view = $this->view( "Errors/Error" );
-                $view->respond()
+                $view->response()
                     ->setSuccess( false )
                     ->setHttpStatusCode( 400 )
                     ->addMessage( "Resource id cannot be null" )
@@ -43,7 +43,23 @@ class Employer extends BaseController
             ->whereColumnValue( "id", "=", $id )
             ->and()->columnValue( "user_id", "=", $this->user->id )
             ->execute( "entity" );
+
+        if ( is_null( $employer ) ) {
+            $view = $this->view( "Errors/Error" );
+
+            if ( $this->request->isAjax() ) {
+                $view->response()
+                    ->setSuccess( false )
+                    ->setHttpStatusCode( 404 )
+                    ->addMessage( "Resource not found" )
+                    ->send();
+            }
+            
+            $view->renderHttpErrorCode( 404 );
+        }
         
+        $view = $this->view( "Resume/Employer/Index" );
+
         $view->assign( "employer", $employer );
 
         $positionRepo = $this->load( "position-repository" );
@@ -105,7 +121,7 @@ class Employer extends BaseController
             $employer = $employerRepo->persist( $employer );
 
             if ( $this->request->isAjax() ) {
-                $view->respond()
+                $view->response()
                     ->setSuccess( true )
                     ->setHttpStatusCode( 201 )
                     ->setData( [ $employer ] )
@@ -116,7 +132,7 @@ class Employer extends BaseController
         }
 
         if ( $this->request->isAjax() ) {
-            $view->respond()
+            $view->response()
                 ->setSuccess( false )
                 ->setHttpStatusCode( 422 )
                 ->addMessage( $requestValidator->getError( 0 ) )
@@ -157,7 +173,7 @@ class Employer extends BaseController
 
             if ( is_null( $employer ) ) {
                 if ( $this->request->isAjax() ) {
-                    $view->respond()
+                    $view->response()
                         ->setSuccess( false )
                         ->setHttpStatusCode( 404 )
                         ->addMessage( "Resource not found" )
@@ -170,7 +186,7 @@ class Employer extends BaseController
             $employerRepo->deleteEntity( $employer );
 
             if ( $this->request->isAjax() ) {
-                $view->respond()
+                $view->response()
                     ->setSuccess( true )
                     ->setHttpStatusCode( 204 )
                     ->addMessage( "Resource deleted successfully" )
@@ -180,9 +196,9 @@ class Employer extends BaseController
             $view->back();
         }
 
-        // Respond with json if request fails and is ajax
+        // response with json if request fails and is ajax
         if ( $this->request->isAjax() ) {
-            $view->respond()
+            $view->response()
                 ->setSuccess( false )
                 ->setHttpStatusCode( 422 )
                 ->addMessage( $requestValidator->getError( 0 ) )

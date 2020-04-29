@@ -18,7 +18,7 @@ class View
         $this->referer = null;
     }
 
-    public function respond()
+    public function response()
     {
         $this->response = new Response;
         return $this->response;
