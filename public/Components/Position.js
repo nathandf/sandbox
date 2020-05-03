@@ -1,4 +1,3 @@
-alert();
 $( ".--add-duty" ).on( "click", function () {
 	$( "#" + $( this ).data( "duty_list_id" ) ).append(
 		'\

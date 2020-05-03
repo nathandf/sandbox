@@ -6,5 +6,6 @@
 	</head>
 	<body>
 		{{parentblock body}}
+		<?php echo( $this->getComponentScriptTags() ); ?>
 	</body>
 </html>

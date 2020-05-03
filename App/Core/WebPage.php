@@ -97,8 +97,8 @@ class WebPage extends View
 
     protected function registerComponentJs( string $component ) : void
     {
-        $component_javascript_file = "App/public/Components/" . $component . ".js";
-        
+        $component_javascript_file = "public/Components/" . $component . ".js";
+
         // Check if any js files exist with the components name.
         if ( file_exists( $component_javascript_file ) ) {
             // Regsiter the file name
@@ -115,5 +115,15 @@ class WebPage extends View
         }
 
         return false;
+    }
+
+    public function getComponentScriptTags() : string
+    {
+        $scripts = "";
+        foreach ( $this->component_javascript_files as $filename ) {
+            $scripts .= "<script defer async src=\"" . HOME . "{$filename}\"></script>\n";
+        }
+
+        return $scripts;
     }
 }
