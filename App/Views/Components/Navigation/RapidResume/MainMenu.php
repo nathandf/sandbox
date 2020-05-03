@@ -1,6 +1,6 @@
 <nav class="nav-top bg-white">
     <div class="fl pl10">
-        <div ><a itemprop="item" href="<?=HOME?>" class="nav-link tc-theme-primary"><span>Home</span></a></div>
+        <div ><a itemprop="item" href="<?=HOME?>" class="nav-link tc-theme-primary"><span>Sandbox</span></a></div>
     </div>
     <div class="fr mr10">
         <div ><a itemprop="item" href="<?=HOME?>resume/certifications/" class="nav-link tc-theme-primary"><span>Certifications</span></a></div>

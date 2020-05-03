@@ -10,9 +10,9 @@ class Position implements EntityInterface
 	public $user_id;
 	public $employer_id;
 	public $name;
-	public $month_start;
-	public $year_start;
-	public $month_end;
-	public $year_end;
+	public $start_month;
+	public $start_year;
+	public $end_month;
+	public $end_year;
 	public $currently_employed;
 }

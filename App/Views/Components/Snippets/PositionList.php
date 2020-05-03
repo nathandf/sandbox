@@ -1,4 +1,4 @@
-<div>
+<div id="<?=$componentId?>">
 	<?php
 		if ( isset( $positionList ) === false || !is_array( $positionList ) ) {
 			$this->renderErrorMessage( "Error loading PositionList" );
@@ -8,9 +8,15 @@
 			}
 			echo( "<div class=\"g gg20\">" );
 			foreach ( $positionList as $position ) {
-				$this->loadComponent( "Snippets/Position", [ "position" => $position ] );
+				$this->loadComponent(
+					"Snippets/Position",
+					[
+						"position" => $position
+					]
+				);
 			}
 			echo( "</div>" );
 		}
 	?>
 </div>
+<!-- <script defer src="<?=HOME?>public/components/Position.js"></script> -->

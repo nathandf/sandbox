@@ -1,6 +1,7 @@
 {{parent Layouts/ResumeBuilder.php}}
 
 {{block head}}
+
 {{/block}}
 
 {{block body}}

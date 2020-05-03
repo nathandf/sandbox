@@ -101,7 +101,9 @@ class Position extends BaseController
             $position->start_month = $this->request->post( "start-month" );
             $position->start_year = $this->request->post( "start-year" );
             $position->currently_employed = $this->request->post( "currently-employed" );
-            
+            $position->end_month = $this->request->post( "end-month" );
+            $position->end_year = $this->request->post( "end-year" );
+
             if ( $position->currently_employed != "" ) {
                 if ( $position->end_month == "" || $position->end_year == "" ) {
                     $error_message = "End month and year must be set if not currently employed in this position";
