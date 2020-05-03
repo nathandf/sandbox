@@ -19,7 +19,7 @@
 		<div class="mt20">
 			<?php
 				$this->loadComponent(
-					"Snippets/SkillList",
+					"SkillList",
 					[ "skillList" => $this->getData( "skillList" ) ]
 				);
 			?>

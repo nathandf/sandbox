@@ -13,7 +13,7 @@
 		<div class="mt20">
 			<?php
 				$this->loadComponent(
-					"Snippets/ResumeList",
+					"ResumeList",
 					[ "resumeList" => $this->getData( "resumeList" ) ]
 				);
 			?>

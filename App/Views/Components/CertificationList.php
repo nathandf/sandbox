@@ -8,7 +8,7 @@
 			}
 			echo( "<div class=\"g gg20\">" );
 			foreach ( $certificationList as $certification ) {
-				$this->loadComponent( "Snippets/Certification", [ "certification" => $certification ] );
+				$this->loadComponent( "Certification", [ "certification" => $certification ] );
 			}
 			echo( "</div>" );
 		}

@@ -8,7 +8,7 @@
 			}
 			echo( "<div class=\"g-std gg20\">" );
 			foreach ( $educationList as $education ) {
-				$this->loadComponent( "Snippets/Education", [ "education" => $education ] );
+				$this->loadComponent( "Education", [ "education" => $education ] );
 			}
 			echo( "</div>" );
 		}

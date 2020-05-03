@@ -21,7 +21,7 @@
 		<div class="mt20">
 			<?php
 				$this->loadComponent(
-					"Snippets/EmployerList",
+					"EmployerList",
 					[ "employerList" => $this->getData( "employerList" ) ]
 				);
 			?>

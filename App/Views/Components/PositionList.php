@@ -9,7 +9,7 @@
 			echo( "<div class=\"g gg20\">" );
 			foreach ( $positionList as $position ) {
 				$this->loadComponent(
-					"Snippets/Position",
+					"Position",
 					[
 						"position" => $position
 					]

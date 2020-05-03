@@ -8,7 +8,7 @@
 			}
 			echo( "<div class=\"g gg20\">" );
 			foreach ( $accomplishmentList as $accomplishment ) {
-				$this->loadComponent( "Snippets/Accomplishment", [ "accomplishment" => $accomplishment ] );
+				$this->loadComponent( "Accomplishment", [ "accomplishment" => $accomplishment ] );
 			}
 			echo( "</div>" );
 		}

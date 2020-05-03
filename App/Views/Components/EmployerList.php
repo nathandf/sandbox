@@ -8,7 +8,7 @@
 			}
 			echo( "<div class=\"g gg20\">" );
 			foreach ( $employerList as $employer ) {
-				$this->loadComponent( "Snippets/Employer", [ "employer" => $employer ] );
+				$this->loadComponent( "Employer", [ "employer" => $employer ] );
 			}
 			echo( "</div>" );
 		}
