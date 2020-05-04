@@ -7,8 +7,8 @@
 {{block body}}
 	<?php $this->loadComponent( "Navigation/RapidResume/MainMenu" ); ?>
     <hr>
-	<h1 class="tc p20"><?=$employer->name?></h1>
 	<div class="w-max-lrg center tp10">
+		<div contenteditable class="tc p20 fs26 fw6 mt20 mb20"><?=$employer->name?></div>
 		<button class="--modal-trigger button bg-green mb20 c-white bsh-w-hov" data-modal="new-position"><span class="mr10">New</span>+</button>
 		<?php
 			$this->loadComponent(

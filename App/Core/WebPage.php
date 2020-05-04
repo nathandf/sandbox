@@ -7,12 +7,18 @@ class WebPage extends View
     public TemplateInheritenceResolver $templateInheritenceResolver;
     private int $loaded_component_count = 0;
     private $components = [];
-    public $component_javascript_files = [];
+    private $scripts = [];
+    private $title;
+    private $description;
 
     public function __construct()
     {
         parent::__construct();
         $this->templateInheritenceResolver = new \Core\TemplateInheritenceResolver;
+        $this->registerScript( HOME . "public/jqueryui/js/jquery.js" )
+            ->registerScript( HOME . "public/jqueryui/js/jquery-ui.js" )
+            ->registerScript( HOME . "public/jqueryui/js/jquery.ui.touch-punch.min.js" )
+            ->registerScript( HOME . "public/js/rapid.js" );
     }
 
     public function loadComponent( string $component, array $data = [] ) : void
@@ -95,6 +101,12 @@ class WebPage extends View
         return;
     }
 
+    protected function registerScript( string $src ) : WebPage
+    {
+        $this->scripts[] = $src;
+        return $this;
+    }
+
     protected function registerComponentJs( string $component ) : void
     {
         $component_javascript_file = "public/Components/" . $component . ".js";
@@ -102,7 +114,7 @@ class WebPage extends View
         // Check if any js files exist with the components name.
         if ( file_exists( $component_javascript_file ) ) {
             // Regsiter the file name
-            $this->component_javascript_files[] = $component_javascript_file;
+            $this->registerScript( HOME . $component_javascript_file );
         }
 
         return;
@@ -117,13 +129,20 @@ class WebPage extends View
         return false;
     }
 
-    public function getComponentScriptTags() : string
+    public function getScriptTags() : string
     {
-        $scripts = "";
-        foreach ( $this->component_javascript_files as $filename ) {
-            $scripts .= "<script defer async src=\"" . HOME . "{$filename}\"></script>\n";
+        $script_tags = "";
+        foreach ( $this->scripts as $filename ) {
+            $script_tags .= "<script src=\"{$filename}\"></script>\n";
         }
 
-        return $scripts;
+        return $script_tags;
+    }
+
+    public function renderScriptTags() : void
+    {
+        echo( $this->getScriptTags() );
+
+        return;
     }
 }

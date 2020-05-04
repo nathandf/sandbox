@@ -12,10 +12,10 @@
         <div ><a itemprop="item" href="<?=HOME?>resume/skills/" class="nav-link tc-theme-primary"><span>Skills</span></a></div>
     </div>
     <div class="fr mr10">
-        <div ><a itemprop="item" href="<?=HOME?>resume/employers/" class="nav-link tc-theme-primary"><span>Employers</span></a></div>
+        <div ><a itemprop="item" href="<?=HOME?>resume/education/" class="nav-link tc-theme-primary"><span>Education</span></a></div>
     </div>
     <div class="fr mr10">
-        <div ><a itemprop="item" href="<?=HOME?>resume/education/" class="nav-link tc-theme-primary"><span>Education</span></a></div>
+        <div ><a itemprop="item" href="<?=HOME?>resume/employers/" class="nav-link tc-theme-primary"><span>Employers</span></a></div>
     </div>
     <div class="fr mr10">
         <div ><a itemprop="item" href="<?=HOME?>resume/" class="nav-link tc-theme-primary"><span>Resumés</span></a></div>

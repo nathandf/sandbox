@@ -3,7 +3,7 @@ $( ".--add-duty" ).on( "click", function () {
 		'\
 		<div class="g gtc-mca">\
 			<p class="mr10 fw6 fs16">•</p>\
-			<p class="fs16 c-dark-gray fw6 mb10">Test description</p>\
+			<p contenteditable class="fs16 c-dark-gray fw6 mb10">Test description</p>\
 		</div>\
 		'
 	);

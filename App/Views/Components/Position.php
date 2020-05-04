@@ -1,6 +1,6 @@
 <div class="bg-white br5 bsh<?php if ( !empty( $classes ) ) { echo( " " . implode( " ", $classes ) ); } ?>" id="<?php echo( $componentId ?? "" ); ?>">
 	<div class="p20">
-		<p class="fw6 c-dark-gray fs22"><?=$position->name?></p>
+		<p contenteditable class="fw6 c-dark-gray fs22"><?=$position->name?></p>
 		<?php if( !$position->currently_employed ): ?>
 			<?=$position->start_month?> <?=$position->start_year?> - <?=$position->end_month?> <?=$position->end_year?>
 		<?php else: ?>
@@ -13,7 +13,7 @@
 			<?php foreach( $position->dutyList as $duty ): ?>
 				<div class="g gtc-mca">
 					<p class="mr10 fw6 fs16">•</p>
-					<p class="fs16 c-dark-gray fw6 mb10"><?=$duty->description?></p>
+					<p contenteditable class="fs16 c-dark-gray fw6 mb10"><?=$duty->description?></p>
 				</div>
 			<?php endforeach; ?>
 		</div>

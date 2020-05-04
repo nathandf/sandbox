@@ -20,7 +20,7 @@ button{-webkit-appearance:none;border-radius:0;background:none;}
 .nav-dropdown-button{display:none;}
 .nav-link{font-family:var(--std-font-family);height:60px;line-height:60px;padding-left:10px;padding-right:10px;display:block;text-decoration:none;font-weight:600;font-size:14px;box-sizing:border-box;}
 .nav-link:hover{border-bottom:2px solid #FFFFFF;}
-.link-no-deco{text-decoration:none;}
+.link-wrap{text-decoration:none;display:inline-block;}
 
 /*Quick Elements*/
 hr{display:block;width:100%;border-bottom:1px solid #BBBBBB;}

@@ -1,6 +1,6 @@
 <div class="bg-white br5 bsh">
 	<div class="p20">
-		<a class="link-no-deco" href="<?=HOME?>resume/employer/<?=$employer->id?>/"><p class="fw6 c-dark-gray fs22"><?=$employer->name?></p></a>
+		<a class="link-wrap" href="<?=HOME?>resume/employer/<?=$employer->id?>/"><p class="fw6 c-dark-gray fs22"><?=$employer->name?></p></a>
 	</div>
 	<hr>
 	<div class="p10">
