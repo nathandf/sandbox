@@ -46,7 +46,8 @@
             "9": "video-manager",
             "10": "facebook-pixel-builder",
             "11": "array-helper",
-            "12": "quick-time"
+            "12": "quick-time",
+            "13": "nasdaq-shorthalt-parser"
         },
         "\\Model\\Services\\": {
             "0": "entity-factory",
